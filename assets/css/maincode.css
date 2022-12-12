@@ -32,3 +32,24 @@ body {
   .div-menu{
           align-items: flex-end !important;
   }
+
+  .logo-git{
+    color:orange;
+    transition:0.3s;
+  }
+  .logo-git:hover{
+    color:rgb(194, 128, 6);
+  }
+  .home{
+    color:rgb(204, 204, 204);
+    transition:0.3s;
+  }
+  .home:hover{
+    color:rgb(255, 255, 255);
+  }
+  #select_turma{
+    width:100% !important;
+  }
+
+
+  
