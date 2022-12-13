@@ -2,8 +2,10 @@ document.addEventListener('DOMContentLoaded', function () {
     getCalander();
 });
 
-function getCalander(json) {
+function getCalander(json, startTimeTable) {
     var initialLocaleCode = 'en';
+    debugger
+    startTimeTable === undefined ? startTimeTable = '08:00:00' : startTimeTable;
 
     var localeSelectorEl = document.getElementById('locale-selector');
     var calendarEl = document.getElementById('calendar');
@@ -22,7 +24,7 @@ function getCalander(json) {
         initialView: 'timeGridWeek',
         weekends: false,
         dayMaxEvents: true, // allow "more" link when too many events
-        slotMinTime: '08:00:00',
+        slotMinTime: startTimeTable,
         events: json,
         eventDidMount: function (info) {
             var tooltip = new Tooltip(info.el, {
