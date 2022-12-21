@@ -6,11 +6,9 @@ function getCalander(json, startTimeTable) {
     var initialLocaleCode = 'en';
     debugger
     startTimeTable === undefined ? startTimeTable = '08:00:00' : startTimeTable;
-
     var localeSelectorEl = document.getElementById('locale-selector');
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
-
         headerToolbar: {
             left: 'prev,next today',
             center: 'title',
@@ -20,12 +18,14 @@ function getCalander(json, startTimeTable) {
         buttonIcons: false, // show the prev/next text
         weekNumbers: true,
         navLinks: true, // can click day/week names to navigate views
-        editable: false,
+        editable: true,
+        eventDrop: function (e) {
+            alert(e)
+        },
         initialView: 'timeGridWeek',
         weekends: false,
         dayMaxEvents: true, // allow "more" link when too many events
         slotMinTime: startTimeTable,
-        events: json,
         eventDidMount: function (info) {
             var tooltip = new Tooltip(info.el, {
                 title: info.event.extendedProps.description,
@@ -33,7 +33,8 @@ function getCalander(json, startTimeTable) {
                 trigger: 'hover',
                 container: 'body'
             });
-        }
+        },
+        events: json,
     });
     calendar.render();
 
