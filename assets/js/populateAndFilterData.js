@@ -29,12 +29,10 @@ function setFilterData(dataHorarios, dataSalas, classFilter) {
         if (value['Turma'].includes(filter)) {
             obj.groupId = id;
             obj.title = value['Unidade de execução'] + "Sala: " + value['Sala da aula'];
-            obj.description = value['Unidade de execução'] + "Sala: " + value['Sala da aula'] +"(</br>)";
-            let dataObj = value['Dia'].replace(/(\d*)\/(\d*)\/(\d*).*/, '$3-$2-$1');
-            obj.start = dataObj + "T" + value['Início'];
-            
+            obj.description = value['Unidade de execução'] + "Sala: " + value['Sala da aula'] + "(</br>)";
+            obj.start = formatDate(value['Dia'], value['Início'], 1);
             startTimeTable < value['Início'] ? startTimeTable : startTimeTable = value['Início'];
-            obj.end = dataObj + "T" + value['Fim'];
+            obj.end = formatDate(value['Dia'], value['Fim'], 1);
             jsonData += JSON.stringify(obj) + ",";
         }
     }
@@ -65,9 +63,7 @@ function getListOfClass(dataHorarios, dataSalas) {
     }
 }
 
-
 function setFilterByDay(dataHorarios, dataSalas) {
-    debugger;
     let id = 0;
     let dateByDay = [];
     for (let value of dataHorarios.values()) {
@@ -76,16 +72,100 @@ function setFilterByDay(dataHorarios, dataSalas) {
             dateByDay.push(value);
         }
     }
-    sortData = dateByDay.sort((a, b) =>{
-        if( a['Turma'] < b['Turma']){
-            return -1;
-        }
+
+    sortData = dataHorarios.sort((a, b) => {
+        return formatDate(a['Dia'], a['Início'], 0) - formatDate(b['Dia'], b['Início'], 0);
     });
-    debugger
+
     console.log(sortData);
-    for(let v of  dateByDay.values()){
-        
+    debugger
+    let filterData = [];
+    for (let v of sortData.values()) {
+        if (dataSalas.length > 0 && dataHorarios.length > 0) {
+            if (v['Características da sala pedida para a aula'] !== "") {
+                console.log(v);
+                let classroom = findInTimeTablesSalas(dataSalas, "", v['Inscritos no turno'], "", v['Características da sala pedida para a aula'].replaceAll(" ", "_"), v['Turno com inscrições superiores à capacidade das salas'], v['Turnos com capacidade superior à capacidade das características das salas'], v['Lotação']);
+                console.log(classroom);
+                if(classroom !== false && classroom !== undefined){
+                    v['Sala da aula'] = classroom['Nome_sala'];
+                    filterData.push(v);
+                }else{
+                    filterData.push(v)
+                }
+            }
+        }
+
     }
+    console.log(filterData);
+}
+
+function findInTimeTablesSalas(dataSalas, edificio, inscritosTurno, Capacidade_Exame, caracteristica, TISCapacidadeSalas, TCCSCCaracteristicasSalas,  lotacao ) {
+
+    let index = 0;
+    
+    salas = [];
+    for (let v of dataSalas.values()) {
+        
+        if (edificio === v['Edifício'] && v['Capacidade_Normal'] >= inscritosTurno) {
+            for (let c in v) {
+                if (caracteristica.toLowerCase().includes(c.toLowerCase()) && v[c] === 'X') {
+                    salas.push(v);
+                }
+            }
+        }
+        
+        if(caracteristica === 'Não_necessita_de_sala' || caracteristica === 'Lab_ISTA' ){
+            debugger
+            return false;
+        }
+        if (edificio === "" && v['Capacidade_Normal'] >= inscritosTurno || (edificio === "" && TISCapacidadeSalas === 'VERDADEIRO' && lotacao >= v['Capacidade_Normal'])) {
+            for (let c in v) {
+                
+                if (caracteristica.toLowerCase().includes(c.toLowerCase()) && v[c] === 'X') {
+                    salas.push(v);
+                }
+            }
+        }
+        if(caracteristica === 'Laboratório_de_Arquitectura_de_Computadores_I'){
+            for (let c in v) {
+                if (caracteristica.toLowerCase().includes(c.toLowerCase()) && v[c] === 'X') {
+                    salas.push(v);
+                }
+            }
+        }
+        if(caracteristica === 'Laboratório_de_Arquitectura_de_Computadores_II'){
+            for (let c in v) {
+                if (caracteristica.toLowerCase().includes(c.toLowerCase()) && v[c] === 'X') {
+                    salas.push(v);
+                }
+            }
+        }
+        if(caracteristica === 'Laboratório_de_Telecomunicações'){
+            for (let c in v) {
+                if (caracteristica.toLowerCase().includes(c.toLowerCase()) && v[c] === 'X') {
+                    salas.push(v);
+                }
+            }
+        }
+
+        
+        if (edificio === "" && TISCapacidadeSalas === 'VERDADEIRO' && TCCSCCaracteristicasSalas === 'VERDADEIRO' && lotacao < v['Capacidade_Normal'] ) {
+              return false;
+        }
+        let idx = 0;
+
+    }
+    index = Math.floor(Math.random() * salas.length)
+    return salas[index];
+}
+
+function formatDate(date, time, timestamp) {
+    if (timestamp === 1) {
+        return new Date(date.replace(/(\d*)\/(\d*)\/(\d*).*/, '$3-$2-$1') + "T" + time).getTime();
+    } else {
+        return new Date(date.replace(/(\d*)\/(\d*)\/(\d*).*/, '$3-$2-$1') + " " + time).getTime();
+    }
+
 }
 
 
