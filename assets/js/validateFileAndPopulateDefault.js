@@ -26,9 +26,9 @@ function getFileAndConvertJson(input) {
                 json = JSON.parse(e.target.result);
                 console.log(json);
                 debugger
-                if(json[0].hasOwnProperty('Curso')){
+                if (json[0].hasOwnProperty('Curso')) {
                     setFilterData(json, "");
-                    
+
                     timeTables = json;
                     getListOfClass(timeTables, timeTablesSalas);
                     divHorarios = document.querySelector('.div-import-horarios')
@@ -37,7 +37,7 @@ function getFileAndConvertJson(input) {
                     document.querySelector('.modal-message').textContent = "Ficheiro de horario lido com sucesso"
                     modalValidateFile.show();
                 }
-                if(json[0].hasOwnProperty('Edifício')){
+                if (json[0].hasOwnProperty('Edifício')) {
                     debugger
                     timeTablesSalas = json;
                     getListOfClass(timeTables, timeTablesSalas);
@@ -47,7 +47,7 @@ function getFileAndConvertJson(input) {
                     document.querySelector('.modal-message').textContent = "Ficheiro de salas lido com sucesso"
                     modalValidateFile.show();
                 }
-                
+
 
             } catch (ex) {
                 console.log('error when trying to parse json = ' + ex);
@@ -55,6 +55,26 @@ function getFileAndConvertJson(input) {
         };
     })(file);
     jsonfile = reader.readAsText(file, fileName);
+}
+
+
+function getListOfClass(dataHorarios, dataSalas) {
+    debugger;
+    let select = document.querySelector("#select_turma");
+    select.style.display = "block";
+    var turma = [];
+    for (let value of dataHorarios.values()) {
+        if (turma.indexOf(value['Turma']) === -1 && value['Turma'] !== "") {
+            turma.push(value['Turma']);
+        }
+    }
+    turma.sort();
+    for (let x of turma) {
+        let newOption = document.createElement('option');
+        newOption.value = x;
+        newOption.textContent = x;
+        select.appendChild(newOption);
+    }
 }
 
 
