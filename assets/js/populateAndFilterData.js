@@ -2,9 +2,8 @@ document.addEventListener('DOMContentLoaded', function () {
     setHorarioMain();
     setGenerateScheduless();
     setGenerateExcel();
+    teste();
 });
-
-
 
 function setFilterData(dataHorarios, dataSalas, classFilter) {
     var jsonData = "";
@@ -21,8 +20,8 @@ function setFilterData(dataHorarios, dataSalas, classFilter) {
         }
         if (value['Turma'].includes(filter)) {
             obj.groupId = id;
-            obj.title = value['Unidade de execução'] + "Sala: " + value['Sala da aula'];
-            obj.description = value['Unidade de execução'] + "Sala: " + value['Sala da aula'] + "(</br>)";
+            obj.title = value['Unidade de execução'] + ", Sala: " + value['Sala da aula'];
+            obj.description = value['Unidade de execução'] + ", Sala: " + value['Sala da aula'] + "";
             obj.start = getDateTime(value['Dia'], value['Início'], 1);
             startTimeTable < value['Início'] ? startTimeTable : startTimeTable = value['Início'];
             obj.end = getDateTime(value['Dia'], value['Fim'], 1);
@@ -37,42 +36,58 @@ function setFilterData(dataHorarios, dataSalas, classFilter) {
 }
 
 ///ordena por data os horarios ///
-function setSortSchedules(dataHorarios) {
+function setSortSchedules(dataHorarios, filterByDay) {
+    filterDayArray = [];
+    if(filterByDay.value !== "" ){
+        for(let x of dataHorarios){
+            let dia = getDates(filterByDay.value);
+            if(x['Dia'] === dia){
+    
+                filterDayArray.push(x);
+            }
+        }
+        dataHorarios = filterDayArray;
+    }
     sortData = dataHorarios.sort((a, b) => {
         return getDateTime(a['Dia'], a['Início'], 0) - getDateTime(b['Dia'], b['Início'], 0);
     });
     return sortData;
 }
 
-function generateSchedules(sortData, dataSalas) {
-    return new Promise((resolve)=>{
-        let filterData = [];
-        for (let v of sortData.values()) {
-            if (dataSalas.length > 0 && sortData.length > 0) {
-                if (v['Características da sala pedida para a aula'] !== "") {
-                    let classroom = findInTimeTablesSalas(dataSalas, filterData, v['Sala da aula'], v['Dia'], v['Início'], v['Fim'], "", v['Inscritos no turno'], "", v['Características da sala pedida para a aula'].replaceAll(" ", "_"), v['Turno com inscrições superiores à capacidade das salas'], v['Turnos com capacidade superior à capacidade das características das salas'], v['Lotação']);
-                    if (classroom !== false && classroom !== undefined) {
-                        v['Sala da aula'] = classroom['Nome_sala'];
-                        filterData.push(v);
-                    } else {
-    
-                        filterData.push(v)
+function generateSchedules(sortData, dataSalas, singleFilter, multipleFilters) {
+
+    let filterData = [];
+    for (let v of sortData.values()) {
+        if (dataSalas.length > 0 && sortData.length > 0) {
+            if (v['Características da sala pedida para a aula'] !== "") {
+                let classroom = findInTimeTablesSalas(singleFilter, multipleFilters, dataSalas, filterData, v['Sala da aula'], v['Dia'], v['Início'], v['Fim'], "", v['Inscritos no turno'], "", v['Características da sala pedida para a aula'].replaceAll(" ", "_"), v['Turno com inscrições superiores à capacidade das salas'], v['Turnos com capacidade superior à capacidade das características das salas'], v['Lotação']);
+                if (classroom !== false && classroom !== undefined) {
+                    v['Sala da aula'] = classroom['Nome_sala'];
+                    v['Lotação'] = classroom['Capacidade_Normal'];
+                    let caract = "";
+                    for (let c in classroom) {
+                        if (classroom[c] === 'X') {
+                            caract += c + ","
+                        }
                     }
+                    v['Características reais da sala'] = caract;
+                    filterData.push(v);
+                } else {
+
+                    filterData.push(v)
                 }
             }
         }
-        resolve();
-    });
-    
-    
+    }
+    return filterData;
 }
 
-function findInTimeTablesSalas(dataSalas, filterData, salaAula, dataAula, horaInicio, horaFim, edificio, inscritosTurno, Capacidade_Exame, caracteristica, TISCapacidadeSalas, TCCSCCaracteristicasSalas, lotacao) {
+function findInTimeTablesSalas(singleFilter, multipleFilters, dataSalas, filterData, salaAula, dataAula, horaInicio, horaFim, edificio, inscritosTurno, Capacidade_Exame, caracteristica, TISCapacidadeSalas, TCCSCCaracteristicasSalas, lotacao) {
 
     let index = 0;
     salas = [];
     for (let v of dataSalas.values()) {
-        if (edificio === "" && v['Capacidade_Normal'] >= inscritosTurno || (edificio === "" && TISCapacidadeSalas === 'VERDADEIRO' && lotacao >= v['Capacidade_Normal'])) {
+        if ((edificio === "" && v['Capacidade_Normal'] >= inscritosTurno && v['Capacidade_Normal'] <= singleFilter.value) || (edificio === "" && TISCapacidadeSalas === 'VERDADEIRO')) {
             if (v[caracteristica] === 'X') {
                 if (filterData.length > 0) {
                     for (let i of filterData.values()) {
@@ -90,45 +105,6 @@ function findInTimeTablesSalas(dataSalas, filterData, salaAula, dataAula, horaIn
             }
         }
 
-        //        if (caracteristica === 'Não_necessita_de_sala' || caracteristica === 'Lab_ISTA') {
-        //            return false;
-        //        }
-        //        if (edificio === "" && v['Capacidade_Normal'] >= inscritosTurno || (edificio === "" && TISCapacidadeSalas === 'VERDADEIRO' && lotacao >= v['Capacidade_Normal'])) {
-        //            for (let c in v) {
-        //
-        //                if (caracteristica.toLowerCase().includes(c.toLowerCase()) && v[c] === 'X') {
-        //                    salas.push(v);
-        //                }
-        //            }
-        //        }
-        //        if (caracteristica === 'Laboratório_de_Arquitectura_de_Computadores_I') {
-        //            for (let c in v) {
-        //                if (caracteristica.toLowerCase().includes(c.toLowerCase()) && v[c] === 'X') {
-        //                    salas.push(v);
-        //                }
-        //            }
-        //        }
-        //        if (caracteristica === 'Laboratório_de_Arquitectura_de_Computadores_II') {
-        //            for (let c in v) {
-        //                if (caracteristica.toLowerCase().includes(c.toLowerCase()) && v[c] === 'X') {
-        //                    salas.push(v);
-        //                }
-        //            }
-        //        }
-        //        if (caracteristica === 'Laboratório_de_Telecomunicações') {
-        //            for (let c in v) {
-        //                if (caracteristica.toLowerCase().includes(c.toLowerCase()) && v[c] === 'X') {
-        //                    salas.push(v);
-        //                }
-        //            }
-        //        }
-        //
-        //
-        //        if (edificio === "" && TISCapacidadeSalas === 'VERDADEIRO' && TCCSCCaracteristicasSalas === 'VERDADEIRO' && lotacao < v['Capacidade_Normal']) {
-        //            return false;
-        //        }
-        //        let idx = 0;
-
     }
     index = Math.floor(Math.random() * salas.length)
     return salas[index];
@@ -143,7 +119,15 @@ function setHorarioMain() {
             //const text = select.options[select.selectedIndex].text;
             let filterData = setFilterData(timeTables, timeTablesSalas, value);
             console.log(filterData)
-            getCalander(filterData[0], filterData[1]);
+            let selectDay = document.querySelector("#filter_ByDay");
+            if(selectDay.value !=="" ){
+                day = getDateCalender(selectDay.value);
+                console.log(day);
+                getCalander(filterData[0], filterData[1], day);
+            }else{
+                getCalander(filterData[0], filterData[1], "");
+            }
+            
         });
     }
 }
@@ -153,12 +137,14 @@ function setGenerateScheduless() {
     const select = document.querySelector("#btn_gerarHorario");
     if (select) {
         select.addEventListener('click', () => {
-            //const text = select.options[select.selectedIndex].text;
-            let sortSchedules = asetSortSchedules(timeTables);
-            let Schedules = generateSchedules(sortSchedules, timeTablesSalas);
-            timeTables = schedules;
-            console.log(Schedules)
+            const singleFilter = document.querySelector("#singleFilter");
 
+            const multipleFilters = document.querySelector("#multipleFilters");
+            const filterByDay = document.querySelector("#filter_ByDay")
+            //const text = select.options[select.selectedIndex].text;
+            let sortSchedules = setSortSchedules(timeTablesTemp, filterByDay);
+            let Schedules = generateSchedules(sortSchedules, timeTablesSalas, singleFilter, multipleFilters);
+            timeTables = Schedules;
         });
     }
 }
@@ -172,3 +158,16 @@ function setGenerateExcel() {
         });
     }
 }
+
+
+function teste() {
+    const select = document.querySelector("#filter_ByDay");
+    if (select) {
+        select.addEventListener('change', () => {
+            console.log(getDates(select.value));
+
+        });
+    }
+}
+
+

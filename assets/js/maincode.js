@@ -1,10 +1,13 @@
 document.addEventListener('DOMContentLoaded', function () {
     getCalander();
+    loadSelectItems();
+    loadSelectItems2()
 });
 
-function getCalander(json, startTimeTable) {
+function getCalander(json, startTimeTable, initialDay) {
     var initialLocaleCode = 'en';
     debugger
+    initialDay !==""?initialDay : initialDay = getTodayDate();
     startTimeTable === undefined ? startTimeTable = '08:00:00' : startTimeTable;
     var localeSelectorEl = document.getElementById('locale-selector');
     var calendarEl = document.getElementById('calendar');
@@ -26,6 +29,7 @@ function getCalander(json, startTimeTable) {
         weekends: false,
         dayMaxEvents: true, // allow "more" link when too many events
         slotMinTime: startTimeTable,
+        initialDate : initialDay,
         eventDidMount: function (info) {
             var tooltip = new Tooltip(info.el, {
                 title: info.event.extendedProps.description,
@@ -54,4 +58,24 @@ function getCalander(json, startTimeTable) {
         }
     });
 
+}
+
+
+function loadSelectItems(){
+    
+    var multipleCancelButton = new Choices('#multipleFilters', {
+        removeItemButton: true,
+        maxItemCount:5,
+        searchResultLimit:5,
+        renderChoiceLimit:5
+      }); 
+}
+function loadSelectItems2(){
+    
+    var multipleCancelButton = new Choices('#singleFilter', {
+        removeItemButton: true,
+        maxItemCount:5,
+        searchResultLimit:5,
+        renderChoiceLimit:5
+      }); 
 }

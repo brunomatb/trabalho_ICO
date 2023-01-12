@@ -1,5 +1,6 @@
 var timeTables = "";
 var timeTablesSalas = "";
+var timeTablesTemp = "";
 //funçaõ para validar se a extenção do ficheiro é .json, caso .json valido lê ficheiro e chama a função setFilterData, getListOfClass.
 function getFileAndConvertJson(input) {
     const file = input.parentNode.parentNode.childNodes[1].childNodes[1].files[0];
@@ -18,7 +19,6 @@ function getFileAndConvertJson(input) {
         modalValidateFile.show();
         return false;
     }
-
     var reader = new FileReader();
     reader.onload = (function (f) {
         return function (e) {
@@ -30,6 +30,7 @@ function getFileAndConvertJson(input) {
                     setFilterData(json, "");
 
                     timeTables = json;
+                    timeTablesTemp = json;
                     getListOfClass(timeTables, timeTablesSalas);
                     divHorarios = document.querySelector('.div-import-horarios')
                     divHorarios.style.display = 'none'
@@ -47,8 +48,6 @@ function getFileAndConvertJson(input) {
                     document.querySelector('.modal-message').textContent = "Ficheiro de salas lido com sucesso"
                     modalValidateFile.show();
                 }
-
-
             } catch (ex) {
                 console.log('error when trying to parse json = ' + ex);
             }
@@ -57,10 +56,11 @@ function getFileAndConvertJson(input) {
     jsonfile = reader.readAsText(file, fileName);
 }
 
-
 function getListOfClass(dataHorarios, dataSalas) {
     debugger;
     let select = document.querySelector("#select_turma");
+    let filterByDay = document.querySelector(".filterByDay");
+    filterByDay.style.display = "block";
     select.style.display = "block";
     var turma = [];
     for (let value of dataHorarios.values()) {
