@@ -38,7 +38,6 @@ function getDateCalender(date) {
     if (String(month).length === 1) {
         month = "0" + month;
     }
-
     day = new Date(date).getDate();
     if (String(day).length === 1) {
         day = "0" + day;
@@ -55,8 +54,6 @@ function createExcel(json, fileName) {
     var filename = fileName + ".xlsx";
     var wb = XLSX.utils.book_new();
     const worksheet = XLSX.utils.json_to_sheet(json);
-
     XLSX.utils.book_append_sheet(wb, worksheet);
     XLSX.writeFile(wb, filename);
-
 }
