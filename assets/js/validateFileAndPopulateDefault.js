@@ -1,7 +1,7 @@
 var timeTables = "";
 var timeTablesSalas = "";
 var timeTablesTemp = "";
-//funçaõ para validar se a extenção do ficheiro é .csv, caso .csv valido lê ficheiro e chama a função setFilterData, getListOfClass.
+//funçaõ para validar se a extenção do ficheiro é .csv, caso .csv valido lê ficheiro e chama a função setFilterCurso, getListOfClass.
 function getFileAndConvertJson(input) {
     const file = input.parentNode.parentNode.childNodes[1].childNodes[1].files[0];
     const modal = document.querySelector('#validateFile');
@@ -34,10 +34,10 @@ function getFileAndConvertJson(input) {
                     modalValidateFile.show();
                     return false;
                 }
-                setFilterData(json, "");
+                setFilterCurso(json, "");
                 timeTables = json;
                 timeTablesTemp = json;
-                getListOfClass(timeTables, timeTablesSalas);
+                appendCursoOnSelect(timeTables, timeTablesSalas);
                 divHorarios = document.querySelector('.div-import-horarios');
                 const modalValidateFile = new bootstrap.Modal(modal);
                 document.querySelector('.modal-message').innerHTML = '<h5><span style="color:green"><i class="fa-solid fa-circle-check"></i></span> Ficheiro de <b>horários</b> lido com sucesso</h5>';
@@ -52,11 +52,12 @@ function getFileAndConvertJson(input) {
                 }
                 debugger
                 timeTablesSalas = json;
-                getListOfClass(timeTables, timeTablesSalas);
+                appendCursoOnSelect(timeTables, timeTablesSalas);
                 divHorarios = document.querySelector('.div-import-salas');
                 const modalValidateFile = new bootstrap.Modal(modal);
                 document.querySelector('.modal-message').innerHTML = '<h5><span style="color:green"><i class="fa-solid fa-circle-check"></i></span> Ficheiro de caracterização das salas lido com sucesso.</h5>';
                 modalValidateFile.show();
+             
             }
             //if ternário//
             timeTables !== "" && timeTablesSalas !== "" ? document.querySelector('.div-menu-config').style.display = 'grid' : "";
@@ -64,16 +65,15 @@ function getFileAndConvertJson(input) {
     });
 }
 
-function getListOfClass(dataHorarios, dataSalas) {
-    debugger;
-    let select = document.querySelector("#select_turma");
+function appendCursoOnSelect(dataHorarios, dataSalas) {
+    let select = document.querySelector("#select_curso");
     var turma = [];
     if (dataHorarios === "") {
         return false;
     }
     for (let value of dataHorarios.values()) {
-        if (turma.indexOf(value['Turma']) === -1 && value['Turma'] !== "") {
-            turma.push(value['Turma']);
+        if (turma.indexOf(value['Curso']) === -1 && value['Curso'] !== "") {
+            turma.push(value['Curso']);
         }
     }
     turma.sort();
@@ -83,6 +83,9 @@ function getListOfClass(dataHorarios, dataSalas) {
         newOption.textContent = x;
         select.appendChild(newOption);
     }
+    
 }
+
+
 
 

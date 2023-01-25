@@ -4,7 +4,29 @@ document.addEventListener('DOMContentLoaded', function () {
     setGenerateExcel();
 });
 
-function setFilterData(dataHorarios, dataSalas, classFilter) {
+//////////////setHorario////////////
+function setHorarioMain() {
+    const select = document.querySelector("#select_curso");
+    if (select) {
+        select.addEventListener('change', () => {
+            const value = select.value;
+            //const text = select.options[select.selectedIndex].text;
+            let filterData = setFilterCurso(timeTables, timeTablesSalas, value);
+            console.log(filterData)
+            let selectDay = document.querySelector("#filter_ByDay");
+            if (selectDay.value !== "") {
+                day = getDateCalender(selectDay.value);
+                console.log(day);
+                getCalander(filterData[0], filterData[1], day);
+            } else {
+                getCalander(filterData[0], filterData[1], "");
+            }
+        });
+        
+    }
+}
+
+function setFilterCurso(dataHorarios, dataSalas, classFilter) {
     var jsonData = "";
     var obj = new Object();
     debugger;
@@ -22,6 +44,7 @@ function setFilterData(dataHorarios, dataSalas, classFilter) {
             obj.title = value['Unidade de execução'] + ", Sala: " + value['Sala da aula'];
             obj.description = value['Unidade de execução'] + ", Sala: " + value['Sala da aula'] + "";
             obj.start = getDateTime(value['Dia'], value['Início'], 1);
+            //avaliaçao ternário//
             startTimeTable < value['Início'] ? startTimeTable : startTimeTable = value['Início'];
             obj.end = getDateTime(value['Dia'], value['Fim'], 1);
             jsonData += JSON.stringify(obj) + ",";
@@ -31,6 +54,7 @@ function setFilterData(dataHorarios, dataSalas, classFilter) {
     const final = "[" + prepareJson + "]";
     const filterObjs = JSON.parse(final);
     //console.log(filterObjs);
+    
     return [filterObjs, startTimeTable];
 }
 
@@ -116,27 +140,7 @@ function findInTimeTablesSalas(singleFilter, multipleFilters, dataSalas, filterD
     return salas[index];
 }
 
-//////////////setHorario////////////
-function setHorarioMain() {
-    const select = document.querySelector("#select_turma");
-    if (select) {
-        select.addEventListener('change', () => {
-            const value = select.value;
-            //const text = select.options[select.selectedIndex].text;
-            let filterData = setFilterData(timeTables, timeTablesSalas, value);
-            console.log(filterData)
-            let selectDay = document.querySelector("#filter_ByDay");
-            if (selectDay.value !== "") {
-                day = getDateCalender(selectDay.value);
-                console.log(day);
-                getCalander(filterData[0], filterData[1], day);
-            } else {
-                getCalander(filterData[0], filterData[1], "");
-            }
 
-        });
-    }
-}
 
 //////////////gerar horario main////////////
 function setGenerateScheduless() {
@@ -152,7 +156,7 @@ function setGenerateScheduless() {
             let Schedules = generateSchedules(sortSchedules, timeTablesSalas, singleFilter, multipleFilters);
             timeTables = Schedules;
             let selectDay = document.querySelector("#filter_ByDay");
-            let filterData = setFilterData(timeTables, timeTablesSalas, "");
+            let filterData = setFilterCurso(timeTables, timeTablesSalas, "");
             if (selectDay.value !== "") {
                 day = getDateCalender(selectDay.value);
                 console.log(day);
