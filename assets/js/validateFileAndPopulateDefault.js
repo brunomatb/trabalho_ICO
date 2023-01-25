@@ -11,15 +11,13 @@ function getFileAndConvertJson(input) {
         modalValidateFile.show();
         return false;
     }
-    debugger
-    const fileName = file.name.split(".")[0];
-    const ext = file.name.split(".")[1];
-    if (ext !== 'csv') {
+    const ext = file.type
+    if (ext !== "text/csv") {
         const modalValidateFile = new bootstrap.Modal(modal);
+        document.querySelector('.modal-message').textContent = "Importar um ficheiro válido extenção .csv."
         modalValidateFile.show();
         return false;
     }
-    debugger
     Papa.parse(file, {
         header: true,
         encoding: 'utf-8',
@@ -27,27 +25,41 @@ function getFileAndConvertJson(input) {
             json = results.data
             json.pop();
             console.log(json[0]);
+            debugger
+            console.log(input.value)
             if (json[0].hasOwnProperty('Curso')) {
+                if (input.value !== 'horarios') {
+                    const modalValidateFile = new bootstrap.Modal(modal);
+                    document.querySelector('.modal-message').innerHTML = '<h5><span style="color:orange"><i class="fa-solid fa-triangle-exclamation fa-xl"></i></span> Ficheiro não importado</h5><br>Importar ficheiro <b>.csv</b> de caracterização das salas.';
+                    modalValidateFile.show();
+                    return false;
+                }
                 setFilterData(json, "");
                 timeTables = json;
                 timeTablesTemp = json;
                 getListOfClass(timeTables, timeTablesSalas);
-                divHorarios = document.querySelector('.div-import-horarios')
-                divHorarios.style.display = 'none'
+                divHorarios = document.querySelector('.div-import-horarios');
                 const modalValidateFile = new bootstrap.Modal(modal);
-                document.querySelector('.modal-message').textContent = "Ficheiro de horario lido com sucesso"
+                document.querySelector('.modal-message').innerHTML = '<h5><span style="color:green"><i class="fa-solid fa-circle-check"></i></span> Ficheiro de <b>horários</b> lido com sucesso</h5>';
                 modalValidateFile.show();
             }
             if (json[0].hasOwnProperty('Edifício')) {
+                if (input.value !== 'salas') {
+                    const modalValidateFile = new bootstrap.Modal(modal);
+                    document.querySelector('.modal-message').innerHTML = '<h5><span style="color:orange"><i class="fa-solid fa-triangle-exclamation fa-xl"></i></span> Ficheiro não importado</h5><br> Importar ficheiro <b>.csv</b> de horários.';
+                    modalValidateFile.show();
+                    return false;
+                }
                 debugger
                 timeTablesSalas = json;
                 getListOfClass(timeTables, timeTablesSalas);
-                divHorarios = document.querySelector('.div-import-salas')
-                divHorarios.style.display = 'none'
+                divHorarios = document.querySelector('.div-import-salas');
                 const modalValidateFile = new bootstrap.Modal(modal);
-                document.querySelector('.modal-message').textContent = "Ficheiro de salas lido com sucesso"
+                document.querySelector('.modal-message').innerHTML = '<h5><span style="color:green"><i class="fa-solid fa-circle-check"></i></span> Ficheiro de caracterização das salas lido com sucesso.</h5>';
                 modalValidateFile.show();
             }
+            //if ternário//
+            timeTables !== "" && timeTablesSalas !== "" ? document.querySelector('.div-menu-config').style.display = 'grid' : "";
         }
     });
 }
@@ -55,10 +67,10 @@ function getFileAndConvertJson(input) {
 function getListOfClass(dataHorarios, dataSalas) {
     debugger;
     let select = document.querySelector("#select_turma");
-    let filterByDay = document.querySelector(".filterByDay");
-    filterByDay.style.display = "block";
-    select.style.display = "block";
     var turma = [];
+    if (dataHorarios === "") {
+        return false;
+    }
     for (let value of dataHorarios.values()) {
         if (turma.indexOf(value['Turma']) === -1 && value['Turma'] !== "") {
             turma.push(value['Turma']);
