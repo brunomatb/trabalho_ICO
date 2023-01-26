@@ -11,6 +11,12 @@ body {
   .div-menu-config{
     display: none;
   }
+  #btn_gerarCSV{
+    cursor: pointer;
+  }
+  #btn_gerGrafico{
+    cursor: pointer;
+  }
 
   #top {
     max-width: 1100px;

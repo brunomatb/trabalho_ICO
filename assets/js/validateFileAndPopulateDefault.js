@@ -35,7 +35,7 @@ function getFileAndConvertJson(input) {
                     modalValidateFile.show();
                     return false;
                 }
-                setFilterCurso(json, 'Curso', 'MEI');
+                setFilterCurso(json, 'Curso', 'MAE');
                 timeTables = json;
                 timeTablesTemp = json;
                 appendCursoOnSelect(timeTables, timeTablesSalas);

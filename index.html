@@ -72,7 +72,8 @@
                         <h2 class="accordion-header" id="headingOne">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                Importar Horários (.csv)
+                                Importar Horários (.csv)&nbsp;&nbsp;&nbsp;
+                                <span ><i class="fa-solid fa-check fa-xl" style="color: green;"></i></span>
                             </button>
                         </h2>
                         <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
@@ -132,26 +133,19 @@
                             </select>
                         </div>
                         <div class="col-md-4 filterByDay">
-                            <p>
+
                                 <b>Gerar horarios para um dia em especifico:</b>
-                            </p>
-                            <label for="filter_ByDay">Dia:</label>
-                            <input type="date" id="filter_ByDay" name="birthday">
+
+                            <input type="date" id="filter_ByDay" class="form-control" name="birthday">
                         </div>
-                        <div class="col-md-8 mt-3 ">
-                            <button type="button" class="btn btn-primary  btn-sm" id="btn_gerarHorario">
-                                Gerar horários
-                            </button>
-                            <button type="button" class="btn btn-secondary btn-sm" id="btn_gerarCSV">
-                                Export
-                                <span>
-                                    <i class="fa-solid fa-file-csv fa-xl" style="background-color: green;"></i>
-                                </span>
-                            </button>
-                            <button type="button" class="btn btn-secondary btn-sm" id="btn_gerarCSV" data-bs-toggle="modal" data-bs-target="#modalChart" onclick="getChart()">
-                                Ver Análise
-                            <span ><i  class="fa-solid fa-chart-column fa-xl"></i></span>
-                        </button>
+                        <div class="col-md-8 mt-3 " style="display: flex; align-items: baseline;">
+                            <button type="button" class="btn btn-primary  btn-sm" id="btn_gerarHorario">Gerar horários</button>
+
+                            &nbsp;&nbsp;<span id="btn_gerarCSV"><i class="fa-solid fa-file-csv fa-xl" style="color: green;"></i>&nbsp;&nbsp;</span>
+                    
+                         
+                            <span id="btn_gerGrafico" data-bs-toggle="modal" data-bs-target="#modalChart" onclick="getChart()"><i style="color: rgb(170, 6, 6);" class="fa-solid fa-chart-column fa-xl"></i></span>
+                 
                         </div>
                     </div>
                     <div class="row">
