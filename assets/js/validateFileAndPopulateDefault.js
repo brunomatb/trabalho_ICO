@@ -1,6 +1,7 @@
 var timeTables = "";
 var timeTablesSalas = "";
 var timeTablesTemp = "";
+var analysis = [];
 //funçaõ para validar se a extenção do ficheiro é .csv, caso .csv valido lê ficheiro e chama a função setFilterCurso, getListOfClass.
 function getFileAndConvertJson(input) {
     const file = input.parentNode.parentNode.childNodes[1].childNodes[1].files[0];
@@ -34,7 +35,7 @@ function getFileAndConvertJson(input) {
                     modalValidateFile.show();
                     return false;
                 }
-                setFilterCurso(json, 'Curso','');
+                setFilterCurso(json, 'Curso', 'MEI');
                 timeTables = json;
                 timeTablesTemp = json;
                 appendCursoOnSelect(timeTables, timeTablesSalas);
@@ -57,10 +58,14 @@ function getFileAndConvertJson(input) {
                 const modalValidateFile = new bootstrap.Modal(modal);
                 document.querySelector('.modal-message').innerHTML = '<h5><span style="color:green"><i class="fa-solid fa-circle-check"></i></span> Ficheiro de caracterização das salas lido com sucesso.</h5>';
                 modalValidateFile.show();
-             
+
             }
             //if ternário//
-            timeTables !== "" && timeTablesSalas !== "" ? document.querySelector('.div-menu-config').style.display = 'grid' : "";
+            if (timeTables !== "" && timeTablesSalas !== "") {
+                document.querySelector('.div-menu-config').style.display = 'grid';
+                analysis.push(setOvercrowedRooms());
+                console.log(analysis);
+            }
         }
     });
 }

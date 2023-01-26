@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
     setGenerateExcel();
     setHorarioUnidadeExecucao();
     setHorarioTurno();
+    
 });
 
 //////////////setHorario////////////
@@ -221,6 +222,7 @@ function setGenerateScheduless() {
             let sortSchedules = setSortSchedules(timeTablesTemp, filterByDay);
             let Schedules = generateSchedules(sortSchedules, timeTablesSalas, singleFilter, multipleFilters);
             timeTables = Schedules;
+            analysis.push(setOvercrowedRooms());
             let selectDay = document.querySelector("#filter_ByDay");
             let filterData = setFilterCurso(timeTables, timeTablesSalas, "");
             if (selectDay.value !== "") {

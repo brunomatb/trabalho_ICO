@@ -91,7 +91,7 @@
                             </div>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-primary  btn-sm" id="testeDados"> Gerar h</button>
+                    
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingTwo">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -148,6 +148,10 @@
                                     <i class="fa-solid fa-file-csv fa-xl" style="background-color: green;"></i>
                                 </span>
                             </button>
+                            <button type="button" class="btn btn-secondary btn-sm" id="btn_gerarCSV" data-bs-toggle="modal" data-bs-target="#modalChart" onclick="getChart()">
+                                Ver Análise
+                            <span ><i  class="fa-solid fa-chart-column fa-xl"></i></span>
+                        </button>
                         </div>
                     </div>
                     <div class="row">
@@ -192,6 +196,25 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="modalChart" tabindex="-1" aria-labelledby="modal" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Análise da qualidade dos horários.</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div >
+                    <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script src="assets/js/qualitativeAnalysis.js"></script>
 </body>
 
 </html>
