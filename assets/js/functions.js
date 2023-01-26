@@ -57,3 +57,15 @@ function createExcel(json, fileName) {
     XLSX.utils.book_append_sheet(wb, worksheet);
     XLSX.writeFile(wb, filename);
 }
+
+function downloadCsv(csvData, filename) {
+    const element = document.createElement("a");
+
+    element.setAttribute("href", `data:text/csv;charset=utf-8,${csvData}`);
+    element.setAttribute("download", filename);
+    element.style.display = "none";
+
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+}

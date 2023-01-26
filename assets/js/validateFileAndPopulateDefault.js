@@ -34,7 +34,7 @@ function getFileAndConvertJson(input) {
                     modalValidateFile.show();
                     return false;
                 }
-                setFilterCurso(json, "");
+                setFilterCurso(json, 'Curso','');
                 timeTables = json;
                 timeTablesTemp = json;
                 appendCursoOnSelect(timeTables, timeTablesSalas);
@@ -63,27 +63,6 @@ function getFileAndConvertJson(input) {
             timeTables !== "" && timeTablesSalas !== "" ? document.querySelector('.div-menu-config').style.display = 'grid' : "";
         }
     });
-}
-
-function appendCursoOnSelect(dataHorarios, dataSalas) {
-    let select = document.querySelector("#select_curso");
-    var turma = [];
-    if (dataHorarios === "") {
-        return false;
-    }
-    for (let value of dataHorarios.values()) {
-        if (turma.indexOf(value['Curso']) === -1 && value['Curso'] !== "") {
-            turma.push(value['Curso']);
-        }
-    }
-    turma.sort();
-    for (let x of turma) {
-        let newOption = document.createElement('option');
-        newOption.value = x;
-        newOption.textContent = x;
-        select.appendChild(newOption);
-    }
-    
 }
 
 

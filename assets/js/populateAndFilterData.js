@@ -2,6 +2,8 @@ document.addEventListener('DOMContentLoaded', function () {
     setHorarioMain();
     setGenerateScheduless();
     setGenerateExcel();
+    setHorarioUnidadeExecucao();
+    setHorarioTurno();
 });
 
 //////////////setHorario////////////
@@ -9,24 +11,76 @@ function setHorarioMain() {
     const select = document.querySelector("#select_curso");
     if (select) {
         select.addEventListener('change', () => {
-            const value = select.value;
-            //const text = select.options[select.selectedIndex].text;
-            let filterData = setFilterCurso(timeTables, timeTablesSalas, value);
-            console.log(filterData)
+            if (select.id === 'select_curso') {
+                appendUnidadeOnSelect(timeTables, select.value);
+                var filterData = setFilterCurso(timeTables, 'Curso', select.value);
+
+            }
             let selectDay = document.querySelector("#filter_ByDay");
             if (selectDay.value !== "") {
                 day = getDateCalender(selectDay.value);
-                console.log(day);
                 getCalander(filterData[0], filterData[1], day);
             } else {
                 getCalander(filterData[0], filterData[1], "");
             }
+
         });
-        
+
+    }
+}
+function setHorarioUnidadeExecucao() {
+    const select = document.querySelector("#select_Unidade");
+    if (select) {
+        select.addEventListener('change', () => {
+
+            var selected = [];
+            for (var option of select.options)
+            {
+                if (option.selected) {
+                    selected.push(option.value);
+                }
+            }
+            appendTurnoOnSelect(timeTables, selected)
+            let filterData = setFilterCurso(timeTables, 'Unidade de execução', selected);
+            let selectDay = document.querySelector("#filter_ByDay");
+            if (selectDay.value !== "") {
+                day = getDateCalender(selectDay.value);
+                getCalander(filterData[0], filterData[1], day);
+            } else {
+                getCalander(filterData[0], filterData[1], "");
+            }
+
+        });
+
+    }
+}
+function setHorarioTurno() {
+    const select = document.querySelector("#select_Turno");
+    if (select) {
+        select.addEventListener('change', () => {
+
+            var selected = [];
+            for (var option of select.options)
+            {
+                if (option.selected) {
+                    selected.push(option.value);
+                }
+            }
+            let filterData = setFilterCurso(timeTables, 'Turno', selected);
+            let selectDay = document.querySelector("#filter_ByDay");
+            if (selectDay.value !== "") {
+                day = getDateCalender(selectDay.value);
+                getCalander(filterData[0], filterData[1], day);
+            } else {
+                getCalander(filterData[0], filterData[1], "");
+            }
+
+        });
+
     }
 }
 
-function setFilterCurso(dataHorarios, dataSalas, classFilter) {
+function setFilterCurso(dataHorarios, typeFilter, filter) {
     var jsonData = "";
     var obj = new Object();
     debugger;
@@ -34,27 +88,39 @@ function setFilterCurso(dataHorarios, dataSalas, classFilter) {
     let startTimeTable = "23:00:00";
     for (let value of dataHorarios.values()) {
         id++;
-        if (classFilter) {
-            var filter = classFilter;
-        } else {
-            var filter = 'MEI-PL-A1';
+        if(typeFilter === 'Unidade de execução' || typeFilter === 'Turno'){
+            for(let x of filter){
+                if (value[typeFilter].includes(x)) {
+                    obj.groupId = id;
+                    obj.title = value['Unidade de execução'] + ", Sala: " + value['Sala da aula'];
+                    obj.description = value['Unidade de execução'] + ", Sala: " + value['Sala da aula'] + "";
+                    obj.start = getDateTime(value['Dia'], value['Início'], 1);
+                    //avaliaçao ternário//
+                    startTimeTable < value['Início'] ? startTimeTable : startTimeTable = value['Início'];
+                    obj.end = getDateTime(value['Dia'], value['Fim'], 1);
+                    jsonData += JSON.stringify(obj) + ",";
+                }
+            }
+  
+        }else{
+            if (value[typeFilter].includes(filter) ){
+                obj.groupId = id;
+                obj.title = value['Unidade de execução'] + ", Sala: " + value['Sala da aula'];
+                obj.description = value['Unidade de execução'] + ", Sala: " + value['Sala da aula'] + "";
+                obj.start = getDateTime(value['Dia'], value['Início'], 1);
+                //avaliaçao ternário//
+                startTimeTable < value['Início'] ? startTimeTable : startTimeTable = value['Início'];
+                obj.end = getDateTime(value['Dia'], value['Fim'], 1);
+                jsonData += JSON.stringify(obj) + ",";
+            }
         }
-        if (value['Turma'].includes(filter)) {
-            obj.groupId = id;
-            obj.title = value['Unidade de execução'] + ", Sala: " + value['Sala da aula'];
-            obj.description = value['Unidade de execução'] + ", Sala: " + value['Sala da aula'] + "";
-            obj.start = getDateTime(value['Dia'], value['Início'], 1);
-            //avaliaçao ternário//
-            startTimeTable < value['Início'] ? startTimeTable : startTimeTable = value['Início'];
-            obj.end = getDateTime(value['Dia'], value['Fim'], 1);
-            jsonData += JSON.stringify(obj) + ",";
-        }
+
     }
     const prepareJson = jsonData.slice(0, -1);
     const final = "[" + prepareJson + "]";
     const filterObjs = JSON.parse(final);
     //console.log(filterObjs);
-    
+
     return [filterObjs, startTimeTable];
 }
 
@@ -79,7 +145,7 @@ function setSortSchedules(dataHorarios, filterByDay) {
 }
 
 function generateSchedules(sortData, dataSalas, singleFilter, multipleFilters) {
-debugger
+    debugger
     let filterData = [];
     for (let v of sortData.values()) {
         if (dataSalas.length > 0 && sortData.length > 0) {
@@ -175,14 +241,85 @@ function setGenerateScheduless() {
 }
 
 function setGenerateExcel() {
-    const select = document.querySelector("#btn_gerarExcel");
+    const select = document.querySelector("#btn_gerarCSV");
     if (select) {
         select.addEventListener('click', () => {
-            createExcel(timeTables, "teste.xlsx");
+            let csv = json2csv.parse(timeTables);
+            downloadCsv(csv, "horario_"+getTodayDate()+".csv");
 
         });
     }
 }
 
 
+// função para preencher select curso
+function appendCursoOnSelect(dataHorarios, dataSalas) {
+    let select = document.querySelector("#select_curso");
+    var turma = [];
+    if (dataHorarios === "") {
+        return false;
+    }
+    for (let value of dataHorarios.values()) {
+        if (turma.indexOf(value['Curso']) === -1 && value['Curso'] !== "") {
+            turma.push(value['Curso']);
+        }
+    }
+    turma.sort();
+    for (let x of turma) {
+        let newOption = document.createElement('option');
+        newOption.value = x;
+        newOption.textContent = x;
+        select.appendChild(newOption);
+    }
 
+}
+
+//função para preencher select unidade execução//
+function appendUnidadeOnSelect(dataHorarios, filtro) {
+    let select = document.querySelector("#select_Unidade");
+    select.innerHTML = "";
+    select.innerHTML = '<option selected>Selecione Unid. Execução</option>'
+    var turma = [];
+    if (dataHorarios === "") {
+        return false;
+    }
+    for (let value of dataHorarios.values()) {
+        if (turma.indexOf(value['Unidade de execução']) === -1 && value['Unidade de execução'] !== "" && value['Curso'] === filtro) {
+            turma.push(value['Unidade de execução']);
+        }
+    }
+    turma.sort();
+    for (let x of turma) {
+        let newOption = document.createElement('option');
+        newOption.value = x;
+        newOption.textContent = x;
+        select.appendChild(newOption);
+    }
+}
+
+
+//função para preencher select turno//
+function appendTurnoOnSelect(dataHorarios, filtro) {
+    let select = document.querySelector("#select_Turno");
+    select.innerHTML = "";
+    select.innerHTML = '<option selected>Selecione Turno</option>'
+    var turma = [];
+    if (dataHorarios === "") {
+        return false;
+    }
+    for( let x of filtro){
+        for (let value of dataHorarios.values()) {
+            if (turma.indexOf(value['Turno']) === -1 && value['Turno'] !== "" && value['Unidade de execução'] === x) {
+                turma.push(value['Turno']);
+            }
+        }
+    }
+    
+    turma.sort();
+    for (let x of turma) {
+        let newOption = document.createElement('option');
+        newOption.value = x;
+        newOption.textContent = x;
+        select.appendChild(newOption);
+    }
+}

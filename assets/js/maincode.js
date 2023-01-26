@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     getCalander();
     loadSelectItems();
-    loadSelectItems2()
+    loadSelectItems2();
 });
 
 function getCalander(json, startTimeTable, initialDay) {
@@ -26,7 +26,7 @@ function getCalander(json, startTimeTable, initialDay) {
             alert(e)
         },
         initialView: 'timeGridWeek',
-        weekends: false,
+        weekends: true,
         dayMaxEvents: true, // allow "more" link when too many events
         slotMinTime: startTimeTable,
         initialDate : initialDay,

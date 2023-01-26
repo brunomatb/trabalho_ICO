@@ -4,18 +4,14 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <link href="assets/css/main.css" rel="stylesheet">
     <link href="assets/css/choices.min.css" rel="stylesheet">
     <link href="assets/css/maincode.css" rel="stylesheet" type="text/css">
     <link href="assets/css/fontawesome_all.min.css" rel="stylesheet" type="text/css">
     <script src="assets/js/main.js"></script>
- 
     <script src="assets/js/locales-all.js"></script>
     <script src="assets/js/fontawesome_all.min.js" type="text/javascript"></script>
-
     <script src="assets/js/bootstrap.bundle.min.js" type="text/javascript"></script>
-    
     <script src="assets/js/read-excel-file.min.js" type="text/javascript"></script>
     <script src="assets/js/xlsx.full.min.js" type="text/javascript"></script>
     <script src="assets/js/validateFileAndPopulateDefault.js" type="text/javascript"></script>
@@ -23,10 +19,14 @@
     <script src="assets/js/functions.js" type="text/javascript"></script>
     <script src="assets/js/choices.min.js" type="text/javascript"></script>
     <script src="assets/js/papaparse.min.js" type="text/javascript"></script>
-    <script src='https://unpkg.com/popper.js/dist/umd/popper.min.js'></script>
-    <script src='https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js'></script>
+    <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/tooltip.min.js"></script>
     <script src="assets/js/maincode.js"></script>
     <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <script src="assets/js/json2csv.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="assets/js/qualitativeAnalysis.js"></script>
+    
 </head>
 
 <body>
@@ -91,6 +91,7 @@
                             </div>
                         </div>
                     </div>
+                    <button type="button" class="btn btn-primary  btn-sm" id="testeDados"> Gerar h</button>
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingTwo">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -141,10 +142,10 @@
                             <button type="button" class="btn btn-primary  btn-sm" id="btn_gerarHorario">
                                 Gerar horários
                             </button>
-                            <button type="button" class="btn btn-secondary btn-sm" id="btn_gerarExcel">
+                            <button type="button" class="btn btn-secondary btn-sm" id="btn_gerarCSV">
                                 Export
                                 <span>
-                                    <i class="fa-solid fa-file-excel fa-xl" style="background-color: green;"></i>
+                                    <i class="fa-solid fa-file-csv fa-xl" style="background-color: green;"></i>
                                 </span>
                             </button>
                         </div>
@@ -155,12 +156,21 @@
                                 <option selected>Selecione curso</option>
                             </select>
                         </div>
+                        
+                    </div>
+                    <div class="row">
                         <div class="col-sm-5 col-md-5 col-lg-5 mt-3">
-                            <select class="form-select" id="select_turno" style="width: -webkit-fill-available;">
-                                <option selected>Selecione turno</option>
+                            <select class="form-select" id="select_Unidade" size="3" multiple  style="width: -webkit-fill-available;">
+                                <option selected>Selecione Unid. Execução</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-5 col-md-5 col-lg-5 mt-3">
+                            <select class="form-select" id="select_Turno" size="3" multiple  style="width: -webkit-fill-available;">
+                                <option selected>Selecione Turno</option>
                             </select>
                         </div>
                     </div>
+                    
                 </div>
             </div>
         </div>
@@ -182,7 +192,6 @@
             </div>
         </div>
     </div>
-  
 </body>
 
 </html>
