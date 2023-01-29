@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
     setGenerateExcel();
     setHorarioUnidadeExecucao();
     setHorarioTurno();
-    
+
 });
 
 //////////////setHorario////////////
@@ -35,8 +35,7 @@ function setHorarioUnidadeExecucao() {
         select.addEventListener('change', () => {
 
             var selected = [];
-            for (var option of select.options)
-            {
+            for (var option of select.options) {
                 if (option.selected) {
                     selected.push(option.value);
                 }
@@ -61,8 +60,7 @@ function setHorarioTurno() {
         select.addEventListener('change', () => {
 
             var selected = [];
-            for (var option of select.options)
-            {
+            for (var option of select.options) {
                 if (option.selected) {
                     selected.push(option.value);
                 }
@@ -89,8 +87,8 @@ function setFilterCurso(dataHorarios, typeFilter, filter) {
     let startTimeTable = "23:00:00";
     for (let value of dataHorarios.values()) {
         id++;
-        if(typeFilter === 'Unidade de execução' || typeFilter === 'Turno'){
-            for(let x of filter){
+        if (typeFilter === 'Unidade de execução' || typeFilter === 'Turno') {
+            for (let x of filter) {
                 if (value[typeFilter].includes(x)) {
                     obj.groupId = id;
                     obj.title = value['Unidade de execução'] + ", Sala: " + value['Sala da aula'];
@@ -102,9 +100,9 @@ function setFilterCurso(dataHorarios, typeFilter, filter) {
                     jsonData += JSON.stringify(obj) + ",";
                 }
             }
-  
-        }else{
-            if (value[typeFilter].includes(filter) ){
+
+        } else {
+            if (value[typeFilter].includes(filter)) {
                 obj.groupId = id;
                 obj.title = value['Unidade de execução'] + ", Sala: " + value['Sala da aula'];
                 obj.description = value['Unidade de execução'] + ", Sala: " + value['Sala da aula'] + "";
@@ -247,7 +245,7 @@ function setGenerateExcel() {
     if (select) {
         select.addEventListener('click', () => {
             let csv = json2csv.parse(timeTables);
-            downloadCsv(csv, "horario_"+getTodayDate()+".csv");
+            downloadCsv(csv, "horario_" + getTodayDate() + ".csv");
 
         });
     }
@@ -281,17 +279,38 @@ function appendUnidadeOnSelect(dataHorarios, filtro) {
     let select = document.querySelector("#select_Unidade");
     select.innerHTML = "";
     select.innerHTML = '<option selected>Selecione Unid. Execução</option>'
-    var turma = [];
+    var uExecucao = [];
     if (dataHorarios === "") {
         return false;
     }
-    for (let value of dataHorarios.values()) {
-        if (turma.indexOf(value['Unidade de execução']) === -1 && value['Unidade de execução'] !== "" && value['Curso'] === filtro) {
-            turma.push(value['Unidade de execução']);
+
+    let arrayFiltro = filtro.split(",");
+    for (c of arrayFiltro) {
+        // regex para procurar a ultima palavra da string //
+       // let regexTestCurso = new RegExp('\\b' + c.trim() + '$|\\s' + c.trim() + ',|^' + c.trim() + '\\s|^' + c.trim() + ',|^' + c.trim());
+        for (let value of dataHorarios.values()) {
+            let cursoOnHorarios = value['Curso'].split(",");
+            for(let v of cursoOnHorarios){
+                debugger
+                if(c.trim() === v.trim()){
+                    if (uExecucao.indexOf(value['Unidade de execução']) === -1 && value['Unidade de execução'] !== "" ) {
+                        console.log(value['Curso']);
+                        uExecucao.push(value['Unidade de execução']);
+                    }
+                }
+             
+            }
+            
+     
         }
+        regexTestCurso = '';
     }
-    turma.sort();
-    for (let x of turma) {
+
+
+
+
+    uExecucao.sort();
+    for (let x of uExecucao) {
         let newOption = document.createElement('option');
         newOption.value = x;
         newOption.textContent = x;
@@ -309,14 +328,14 @@ function appendTurnoOnSelect(dataHorarios, filtro) {
     if (dataHorarios === "") {
         return false;
     }
-    for( let x of filtro){
+    for (let x of filtro) {
         for (let value of dataHorarios.values()) {
             if (turma.indexOf(value['Turno']) === -1 && value['Turno'] !== "" && value['Unidade de execução'] === x) {
                 turma.push(value['Turno']);
             }
         }
     }
-    
+
     turma.sort();
     for (let x of turma) {
         let newOption = document.createElement('option');

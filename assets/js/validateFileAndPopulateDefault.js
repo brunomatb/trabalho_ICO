@@ -28,7 +28,13 @@ function getFileAndConvertJson(input) {
             console.log(json[0]);
             debugger
             console.log(input.value)
-            if (json[0].hasOwnProperty('Curso')) {
+            if(!json[0].hasOwnProperty('Curso') && !json[0].hasOwnProperty('Edifício')){
+                const modalValidateFile = new bootstrap.Modal(modal);
+                document.querySelector('.modal-message').textContent = "Importar um ficheiro válido .csv."
+                modalValidateFile.show();
+                return false;
+            }
+            if (json[0].hasOwnProperty('Curso') && json[0].hasOwnProperty('Características da sala pedida para a aula')) {
                 if (input.value !== 'horarios') {
                     const modalValidateFile = new bootstrap.Modal(modal);
                     document.querySelector('.modal-message').innerHTML = '<h5><span style="color:orange"><i class="fa-solid fa-triangle-exclamation fa-xl"></i></span> Ficheiro não importado</h5><br>Importar ficheiro <b>.csv</b> de caracterização das salas.';
