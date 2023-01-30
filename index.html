@@ -35,8 +35,7 @@
             <a class="navbar-brand" href="https://www.iscte-iul.pt" style="width:15%">
                 <img src="assets/pictures/logo.png" style="width: 80%; filter: invert(100%);">
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -133,19 +132,12 @@
                             </select>
                         </div>
                         <div class="col-md-4 filterByDay">
-
                                 <b>Gerar horarios para um dia em especifico:</b>
-
                             <input type="date" id="filter_ByDay" class="form-control" name="birthday">
                         </div>
                         <div class="col-md-8 mt-3 " style="display: flex; align-items: baseline;">
-                            <button type="button" class="btn btn-primary  btn-sm" id="btn_gerarHorario">Gerar horários</button>
-
-                            &nbsp;&nbsp;<span id="btn_gerarCSV"><i class="fa-solid fa-file-csv fa-xl" style="color: green;"></i>&nbsp;&nbsp;</span>
-                    
-                         
+                            <button type="button" class="btn btn-primary  btn-sm" id="btn_gerarHorario" data-bs-toggle="modal" data-bs-target="#modalAskGenerateTimeTables">Gerar horário</button>&nbsp;&nbsp;<span id="btn_gerarCSV"><i class="fa-solid fa-file-csv fa-xl" style="color: green;"></i>&nbsp;&nbsp;</span>                   
                             <span id="btn_gerGrafico" data-bs-toggle="modal" data-bs-target="#modalChart" onclick="getChart()"><i style="color: rgb(170, 6, 6);" class="fa-solid fa-chart-column fa-xl"></i></span>
-                 
                         </div>
                     </div>
                     <div class="row">
@@ -153,8 +145,7 @@
                             <select class="form-select" id="select_curso" style="width: -webkit-fill-available;">
                                 <option selected>Selecione curso</option>
                             </select>
-                        </div>
-                        
+                        </div>       
                     </div>
                     <div class="row">
                         <div class="col-sm-5 col-md-5 col-lg-5 mt-3">
@@ -167,8 +158,7 @@
                                 <option selected>Selecione Turno</option>
                             </select>
                         </div>
-                    </div>
-                    
+                    </div>          
                 </div>
             </div>
         </div>
@@ -208,7 +198,46 @@
           </div>
         </div>
       </div>
+      <div class="modal fade" id="modalWaitTimeTables" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title header-modalWaitTimeTables" id="ModalLabel"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h5 class="modal-message-time-tables"></h5>
+                    <div class="d-flex justify-content-center generate-time-tables-spinner">
+                       <div class="spinner-border text-success" role="status">
+                       </div>
+                    </div>
+                </div>
+                <div class="modal-footer generate-time-tables-spinner-footer" >
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" tabindex="-1" id="modalAskGenerateTimeTables">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Gerar Horário</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p>Pode demorar entre até 5 minutos a gerar o horário, gerar horário?</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" onclick="gerarHorario()"data-bs-dismiss="modal">Yes</button>
+            </div>
+          </div>
+        </div>
+      </div>
       <script src="assets/js/qualitativeAnalysis.js"></script>
+
+
 </body>
 
 </html>

@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
     setHorarioMain();
-    setGenerateScheduless();
     setGenerateExcel();
     setHorarioUnidadeExecucao();
     setHorarioTurno();
@@ -82,7 +81,7 @@ function setHorarioTurno() {
 function setFilterCurso(dataHorarios, typeFilter, filter) {
     var jsonData = "";
     var obj = new Object();
-    debugger;
+    ;
     let id = 0;
     let startTimeTable = "23:00:00";
     for (let value of dataHorarios.values()) {
@@ -102,6 +101,7 @@ function setFilterCurso(dataHorarios, typeFilter, filter) {
             }
 
         } else {
+
             if (value[typeFilter].includes(filter)) {
                 obj.groupId = id;
                 obj.title = value['Unidade de execução'] + ", Sala: " + value['Sala da aula'];
@@ -118,7 +118,7 @@ function setFilterCurso(dataHorarios, typeFilter, filter) {
     const prepareJson = jsonData.slice(0, -1);
     const final = "[" + prepareJson + "]";
     const filterObjs = JSON.parse(final);
-    //console.log(filterObjs);
+    ////console.log(filterObjs);
 
     return [filterObjs, startTimeTable];
 }
@@ -144,7 +144,7 @@ function setSortSchedules(dataHorarios, filterByDay) {
 }
 
 function generateSchedules(sortData, dataSalas, singleFilter, multipleFilters) {
-    debugger
+
     let filterData = [];
     for (let v of sortData.values()) {
         if (dataSalas.length > 0 && sortData.length > 0) {
@@ -181,7 +181,7 @@ function findInTimeTablesSalas(singleFilter, multipleFilters, dataSalas, filterD
                 if (filterData.length > 0) {
                     for (let i of filterData.values()) {
                         if (dataAula === i['Dia'] && salaAula === i['Sala da aula']) {
-                            debugger
+
                             if (i['Turma'] === turma) {
                                 salas.push(i);
                             } else {
@@ -205,39 +205,54 @@ function findInTimeTablesSalas(singleFilter, multipleFilters, dataSalas, filterD
     return salas[index];
 }
 
-
-
 //////////////gerar horario main////////////
 function setGenerateScheduless() {
-    const select = document.querySelector("#btn_gerarHorario");
-    if (select) {
-        select.addEventListener('click', () => {
-            const singleFilter = document.querySelector("#singleFilter");
 
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            //console.log("Hello from inside the testAsync function");
+            const singleFilter = document.querySelector("#singleFilter");
             const multipleFilters = document.querySelector("#multipleFilters");
             const filterByDay = document.querySelector("#filter_ByDay")
             //const text = select.options[select.selectedIndex].text;
             let sortSchedules = setSortSchedules(timeTablesTemp, filterByDay);
             let Schedules = generateSchedules(sortSchedules, timeTablesSalas, singleFilter, multipleFilters);
             timeTables = Schedules;
+            alertModal();
             analysis.push(setOvercrowedRooms());
             let selectDay = document.querySelector("#filter_ByDay");
-            let filterData = setFilterCurso(timeTables, timeTablesSalas, "");
+            let filterData = setFilterCurso(timeTables, 'Curso', "MAE");
             if (selectDay.value !== "") {
                 day = getDateCalender(selectDay.value);
-                console.log(day);
+                //console.log(day);
                 getCalander(filterData[0], filterData[1], day);
             } else {
                 getCalander(filterData[0], filterData[1], "");
             }
-            const modal = document.querySelector('#validateFile');
-            const modalValidateFile = new bootstrap.Modal(modal);
-            document.querySelector('#ModalLabel').innerHTML = "<h4><b>Horario gerado!.</b><h4/>";
-            document.querySelector('.modal-message').innerHTML = "Horario Gerado com sucesso para o dia: <b>" + day + ".</b>";
-            modalValidateFile.show();
+        }, 1500);
+        resolve();
+    }, { once: true });
 
-        });
-    }
+}
+async function openModal() {
+    const modal = document.querySelector('#modalWaitTimeTables');
+    const modalValidateFile = new bootstrap.Modal(modal);
+    modalValidateFile.show();
+    document.querySelector('.header-modalWaitTimeTables').textContent = 'A gerar horário, por favor aguarde...';
+    document.querySelector('.generate-time-tables-spinner-footer').style.display = 'none';
+    document.querySelector('.generate-time-tables-spinner').style.display = 'block';
+    return true;
+}
+async function alertModal() {
+    document.querySelector('.header-modalWaitTimeTables').textContent = 'horário gerado';
+    document.querySelector('.generate-time-tables-spinner').style.setProperty('display', 'none', 'important');
+    document.querySelector('.modal-message-time-tables').innerHTML = "Horario Gerado com sucesso.</b>";
+    document.querySelector('.generate-time-tables-spinner-footer').style.display = 'block';
+}
+async function gerarHorario() {
+
+    await openModal();
+    setGenerateScheduless();
 }
 
 function setGenerateExcel() {
@@ -250,7 +265,6 @@ function setGenerateExcel() {
         });
     }
 }
-
 
 // função para preencher select curso
 function appendCursoOnSelect(dataHorarios, dataSalas) {
@@ -271,7 +285,6 @@ function appendCursoOnSelect(dataHorarios, dataSalas) {
         newOption.textContent = x;
         select.appendChild(newOption);
     }
-
 }
 
 //função para preencher select unidade execução//
@@ -287,28 +300,22 @@ function appendUnidadeOnSelect(dataHorarios, filtro) {
     let arrayFiltro = filtro.split(",");
     for (c of arrayFiltro) {
         // regex para procurar a ultima palavra da string //
-       // let regexTestCurso = new RegExp('\\b' + c.trim() + '$|\\s' + c.trim() + ',|^' + c.trim() + '\\s|^' + c.trim() + ',|^' + c.trim());
+        // let regexTestCurso = new RegExp('\\b' + c.trim() + '$|\\s' + c.trim() + ',|^' + c.trim() + '\\s|^' + c.trim() + ',|^' + c.trim());
         for (let value of dataHorarios.values()) {
             let cursoOnHorarios = value['Curso'].split(",");
-            for(let v of cursoOnHorarios){
-                debugger
-                if(c.trim() === v.trim()){
-                    if (uExecucao.indexOf(value['Unidade de execução']) === -1 && value['Unidade de execução'] !== "" ) {
-                        console.log(value['Curso']);
+            for (let v of cursoOnHorarios) {
+
+                if (c.trim() === v.trim()) {
+                    if (uExecucao.indexOf(value['Unidade de execução']) === -1 && value['Unidade de execução'] !== "") {
+                        //console.log(value['Curso']);
                         uExecucao.push(value['Unidade de execução']);
                     }
                 }
-             
+
             }
-            
-     
         }
         regexTestCurso = '';
     }
-
-
-
-
     uExecucao.sort();
     for (let x of uExecucao) {
         let newOption = document.createElement('option');
@@ -317,7 +324,6 @@ function appendUnidadeOnSelect(dataHorarios, filtro) {
         select.appendChild(newOption);
     }
 }
-
 
 //função para preencher select turno//
 function appendTurnoOnSelect(dataHorarios, filtro) {
@@ -335,7 +341,6 @@ function appendTurnoOnSelect(dataHorarios, filtro) {
             }
         }
     }
-
     turma.sort();
     for (let x of turma) {
         let newOption = document.createElement('option');

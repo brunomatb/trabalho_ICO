@@ -1,6 +1,6 @@
 function setOvercrowedRooms() {
 
-    debugger
+    
     let overcrowedRooms = 0;
     let studentsWithoutSeat = 0;
     let unusedSeats = 0;
@@ -46,7 +46,7 @@ function dataChart() {
     const backGround = ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(55, 230, 142)','rgb(230, 198, 55)']
     if (analysis.length > 0) {
         idx = 0;
-        debugger
+        
         for (let x of analysis) {
                 var obj = new Object();
                 let label = "Horário"+(idx+1).toString();

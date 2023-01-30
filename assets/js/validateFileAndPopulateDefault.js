@@ -26,7 +26,7 @@ function getFileAndConvertJson(input) {
             json = results.data
             json.pop();
             console.log(json[0]);
-            debugger
+            
             console.log(input.value)
             if(!json[0].hasOwnProperty('Curso') && !json[0].hasOwnProperty('Edifício')){
                 const modalValidateFile = new bootstrap.Modal(modal);
@@ -57,7 +57,7 @@ function getFileAndConvertJson(input) {
                     modalValidateFile.show();
                     return false;
                 }
-                debugger
+                
                 timeTablesSalas = json;
                 appendCursoOnSelect(timeTables, timeTablesSalas);
                 divHorarios = document.querySelector('.div-import-salas');
