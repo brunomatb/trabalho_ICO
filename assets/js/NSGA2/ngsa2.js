@@ -2,7 +2,6 @@ function random_population(nv, n, lb, ub) {
     /*nv: O número de variáveis de decisão (ou objetivos, dependendo do contexto).
       n: O número de soluções aleatórias a serem geradas.
       lb: arry com o limite inferior para as variáveis de decisão.
-      ub: array com o limite superior para as variáveis de decisão.
       */
     const pop = []
     for (let i = 0; i < n; i++) {
