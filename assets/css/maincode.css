@@ -6,14 +6,21 @@ body {
     font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
     font-size: 14px;
   }
-
+.row{
+  --bs-gutter-x: 0rem !important;
+}
   /* div para menu configuraçãoes */
-  .div-menu-config{
+
+  /*
+  .div-menu-config, .div-menu-config-algoritmo{
     display: none;
   }
   #btn_gerarCSV{
     cursor: pointer;
   }
+  */
+
+
  /* tamanho do spninner*/
   .ui-spinner-input {
     width: 50px;

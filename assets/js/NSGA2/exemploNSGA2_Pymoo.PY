@@ -63,6 +63,7 @@ class AtribuirTurmaSalaProblem(Problem):
                 horario = self.horarios[i]
 
                 if horario.tipo_sala != sala.tipo_sala:
+                    R = max(0, horario.quantidade_alunos)
                     diferenca_capacidade[k] += max(0, horario.quantidade_alunos)
 
                 diferenca_capacidade[k] += max(0, horario.quantidade_alunos - sala.capacidade_alunos)
@@ -109,14 +110,14 @@ horarios = [
     Horario("Turma A", "08:00", "10:00", 25, TipoSala.LAB_INFORMATICA),
     Horario("Turma B", "10:00", "12:00", 18, TipoSala.LAB_JORNALISMO),
     Horario("Turma C", "14:00", "16:00", 35, TipoSala.SALA_MESTRADO),
-    Horario("Turma D", "08:00", "10:00", 22, TipoSala.LAB_INFORMATICA),
-    Horario("Turma E", "16:00", "18:00", 5, TipoSala.LAB_JORNALISMO),
+    Horario("Turma D", "08:00", "10:00", 22, TipoSala.SALA_MESTRADO),
+    Horario("Turma E", "16:00", "18:00", 5, TipoSala.SALA_MESTRADO),
     Horario("Turma F", "16:00", "18:00", 18, TipoSala.LAB_JORNALISMO),
 ]
 
 problem = AtribuirTurmaSalaProblem(salas, horarios)
 
-algorithm = NSGA2(pop_size=500,
+algorithm = NSGA2(pop_size=100,
                   sampling=IntegerSampling(),
                   #prob: probabilidade de 90% de que o operador de crossover seja aplicado a este cromossomo em uma determinada iteração.
                   crossover=sbx.SimulatedBinaryCrossover(prob=0.9, eta=15),
@@ -126,7 +127,7 @@ algorithm = NSGA2(pop_size=500,
 
 res = minimize(problem,
                algorithm,
-               ("n_gen", 10),
+               ("n_gen", 25),
                #iagual a False não apresenta resultados
                verbose=True,
                seed=1)

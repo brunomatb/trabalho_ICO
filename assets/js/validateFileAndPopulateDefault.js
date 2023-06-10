@@ -25,9 +25,7 @@ function getFileAndConvertJson(input) {
         complete: function (results, file) {
             json = results.data
             json.pop();
-            console.log(json[0]);
-            
-            console.log(input.value)
+            debugger
             if(!json[0].hasOwnProperty('Curso') && !json[0].hasOwnProperty('Edifício')){
                 const modalValidateFile = new bootstrap.Modal(modal);
                 document.querySelector('.modal-message').textContent = "Importar um ficheiro válido .csv."
@@ -66,9 +64,9 @@ function getFileAndConvertJson(input) {
                 modalValidateFile.show();
 
             }
-            //if ternário//
             if (timeTables !== "" && timeTablesSalas !== "") {
                 document.querySelector('.div-menu-config').style.display = 'grid';
+                document.querySelector('.div-menu-config-algoritmo').style.display = 'grid';
                 analysis.push(setOvercrowedRooms());
                 console.log(analysis);
             }

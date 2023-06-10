@@ -116,27 +116,59 @@
                         </div>
                     </div>
                 </div>
-                <div class="div-menu-config">
-                    <div class="row">
-                        <div class="col-md-4 mt-3" style="z-index: 99">
-                            <select id="multipleFilters" placeholder="Selecione até 5 caracteristicas" multiple>
-                                <option value="edificio">Mesmo edificio</option>
-                            </select>
+
+                <div class="div-menu-config-algoritmo border rounded mt-3">
+                    <div class="row p-3">
+                        <div class="col-md-12  ">
+                            <p><b>Configurações do algoritmo para gerar horário:</b></p>
                         </div>
-                        <div class="col-md-4 mt-3" style="z-index: 99">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDisabled" >
+                            <label class="form-check-label" for="flexSwitchCheckDisabled">Minimizar a colização de salas</label>
+                            <p><small class="text-danger">*Ao selecionar está opção a geração do horário pode demorar mais de uma hora</small></p>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckCheckedDisabled" >
+                            <label class="form-check-label" for="flexSwitchCheckCheckedDisabled">Minimizar e ter em consideração a atribuição da mesma sala, quando a unidade de execução tem dois períodos</label>
+                            <p><small class="text-danger">*Ao selecionar está opção a geração do horário pode demorar mais de uma hora</small></p>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                            <label class="form-check-label" for="flexSwitchCheckDefault">Gerar horário tendo como base o CSV importado dos horários</label>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
+                            <label class="form-check-label" for="flexSwitchCheckChecked">Minimizar e ter em consideração as caracteristicas da sala pedida</label> 
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault"checked>
+                            <label class="form-check-label" for="flexSwitchCheckDefault">Minimizar e ter em consideração que, a capacidade normal da sala não deve ser inferior aos inscritos no turno</label>
+                        </div>
+                        
+                        
+                        <div><br><button type="button" class="btn btn-primary  btn-sm" id="btn_gerarHorario" data-bs-toggle="modal" data-bs-target="#modalAskGenerateTimeTables">Gerar horário</button></div>
+                     
+                        
+                        <!--<div class="col-md-4" style="z-index: 99">
                             <select id="singleFilter" placeholder="Capacidade máxima da sala">
                                 <option value="100">Capacidade máxima da sala</option>
                                 <option value="10">Maior que 10</option>
                                 <option value="20">Maior que 20</option>
                                 <option value="30">Maior que 30</option>
                             </select>
-                        </div>
-                        <div class="col-md-4 filterByDay">
-                                <b>Gerar horarios para um dia em especifico:</b>
+                        </div>-->
+
+                        <!--<div class="col-md-4 filterByDay">
+                                <b>Gerar horarios para um periudo em especifico:</b>
                             <input type="date" id="filter_ByDay" class="form-control" name="birthday">
-                        </div>
+                        </div> --> 
+                    </div>    
+
+                </div>
+                <div class="div-menu-config">
+                    <div class="row">
                         <div class="col-md-8 mt-3 " style="display: flex; align-items: baseline;">
-                            <button type="button" class="btn btn-primary  btn-sm" id="btn_gerarHorario" data-bs-toggle="modal" data-bs-target="#modalAskGenerateTimeTables">Gerar horário</button>&nbsp;&nbsp;<span id="btn_gerarCSV"><i class="fa-solid fa-file-csv fa-xl" style="color: green;"></i>&nbsp;&nbsp;</span>                   
+                            <span id="btn_gerarCSV"><i class="fa-solid fa-file-csv fa-xl" style="color: green;"></i>&nbsp;&nbsp;</span>                   
                             <span id="btn_gerGrafico" data-bs-toggle="modal" data-bs-target="#modalChart" onclick="getChart()"><i style="color: rgb(170, 6, 6);" class="fa-solid fa-chart-column fa-xl"></i></span>
                         </div>
                     </div>

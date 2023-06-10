@@ -77,11 +77,10 @@ function setHorarioTurno() {
 
     }
 }
-
+// função para filtrar e ciar e retornar um abjeto JSON para ser populado os dados no calendario, este objeto temo formato da biblioteca
 function setFilterCurso(dataHorarios, typeFilter, filter) {
-    var jsonData = "";
     var obj = new Object();
-    ;
+    var arrayObj = []
     let id = 0;
     let startTimeTable = "23:00:00";
     for (let value of dataHorarios.values()) {
@@ -89,6 +88,7 @@ function setFilterCurso(dataHorarios, typeFilter, filter) {
         if (typeFilter === 'Unidade de execução' || typeFilter === 'Turno') {
             for (let x of filter) {
                 if (value[typeFilter].includes(x)) {
+                    obj = new Object();
                     obj.groupId = id;
                     obj.title = value['Unidade de execução'] + ", Sala: " + value['Sala da aula'];
                     obj.description = value['Unidade de execução'] + ", Sala: " + value['Sala da aula'] + "";
@@ -96,13 +96,15 @@ function setFilterCurso(dataHorarios, typeFilter, filter) {
                     //avaliaçao ternário//
                     startTimeTable < value['Início'] ? startTimeTable : startTimeTable = value['Início'];
                     obj.end = getDateTime(value['Dia'], value['Fim'], 1);
-                    jsonData += JSON.stringify(obj) + ",";
+                    debugger
+                    arrayObj.push(obj);
                 }
             }
 
         } else {
 
             if (value[typeFilter].includes(filter)) {
+                obj = new Object();
                 obj.groupId = id;
                 obj.title = value['Unidade de execução'] + ", Sala: " + value['Sala da aula'];
                 obj.description = value['Unidade de execução'] + ", Sala: " + value['Sala da aula'] + "";
@@ -110,17 +112,14 @@ function setFilterCurso(dataHorarios, typeFilter, filter) {
                 //avaliaçao ternário//
                 startTimeTable < value['Início'] ? startTimeTable : startTimeTable = value['Início'];
                 obj.end = getDateTime(value['Dia'], value['Fim'], 1);
-                jsonData += JSON.stringify(obj) + ",";
+                arrayObj.push(obj);
             }
         }
 
     }
-    const prepareJson = jsonData.slice(0, -1);
-    const final = "[" + prepareJson + "]";
-    const filterObjs = JSON.parse(final);
-    ////console.log(filterObjs);
+    console.log(JSON.stringify(arrayObj))
 
-    return [filterObjs, startTimeTable];
+    return [arrayObj, startTimeTable];
 }
 
 ///ordena por data os horarios ///
