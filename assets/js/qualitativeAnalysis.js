@@ -1,6 +1,6 @@
 function setOvercrowedRooms() {
 
-    
+
     let overcrowedRooms = 0;
     let studentsWithoutSeat = 0;
     let unusedSeats = 0;
@@ -44,29 +44,29 @@ function randomColor() {
     const g = Math.floor(Math.random() * 200);
     const b = Math.floor(Math.random() * 200);
     const alpha = 0.2; // Valor de transparência definido como 0.2
-  
+
     const rgba = `rgba(${r}, ${g}, ${b}, ${alpha})`;
     const rgb = `rgb(${r}, ${g}, ${b})`;
-  
+
     return {
-      rgba: rgba,
-      rgb: rgb
+        rgba: rgba,
+        rgb: rgb
     };
-  }
-  
+}
+
 
 function dataChart(fitness) {
     var chartArray = [];
 
     if (fitness.length > 0) {
         idx = 0;
-        
+
         for (let x of fitness) {
-                var obj = new Object();
-                rgba = randomColor()['rgba'];
-                rgb = randomColor()['rgb'];
-                let label = "Solução "+(idx+1).toString();
-                obj.label = label,
+            var obj = new Object();
+            rgba = randomColor()['rgba'];
+            rgb = randomColor()['rgb'];
+            let label = "Solução " + (idx + 1).toString();
+            obj.label = label,
                 obj.data = x,
                 obj.fill = true,
                 obj.backgroundColor = rgba,
@@ -79,34 +79,63 @@ function dataChart(fitness) {
             chartArray.push(obj);
         }
         console.log(chartArray);
-        return  chartArray;
+        return chartArray;
     }
 }
 function getChart() {
-    if (fitnessSolutions.length > 0) {
 
-        const data = {
-            labels: fitnessKeys,
-            datasets: dataChart(fitnessSolutions)
-        };
-        let chartStatus = Chart.getChart("myChart"); // <canvas> id
-        if (chartStatus != undefined) {
-            chartStatus.destroy();
-        }
-        const ctx = document.getElementById('myChart');
-
-        new Chart(ctx, {
-
-            type: 'radar',
-            data: data,
-            options: {
-                elements: {
-                    line: {
-                        borderWidth: 3
-                    }
-                }
-            },
-        });
+    if (fitnessSolutions.length > 2) {
+        plotRadar()
+    }else{
+        plotScatter();
     }
 }
 
+function plotRadar() {
+    const data = {
+        labels: fitnessKeys,
+        datasets: dataChart(fitnessSolutions)
+    };
+    let chartStatus = Chart.getChart("myChart"); // <canvas> id
+    if (chartStatus != undefined) {
+        chartStatus.destroy();
+    }
+    const ctx = document.getElementById('myChart');
+    new Chart(ctx, {
+
+        type: 'line',
+        data: data,
+        options: {
+            elements: {
+                line: {
+                    borderWidth: 3
+                }
+            }
+        },
+    });
+}
+
+function plotScatter() {
+
+    const data = {
+        labels: fitnessKeys,
+        datasets: dataChart(fitnessSolutions)
+    };
+    let chartStatus = Chart.getChart("myChart"); // <canvas> id
+    if (chartStatus != undefined) {
+        chartStatus.destroy();
+    }
+    const ctx = document.getElementById('myChart');
+    new Chart(ctx, {
+        type: 'scatter',
+        data: data,
+        options: {
+            scales: {
+                x: {
+                    type: 'linear',
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+}

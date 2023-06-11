@@ -175,8 +175,27 @@ function evaluation(population, horarios, salas, configAlgoritmo) {
                 }
             }
         }
-        fitness.push([sameRoomFitness, lotation, roomOverlap, continuidadeSala]);
-
+        objetives = []
+        for (i in configAlgoritmo){
+            if(configAlgoritmo[i] === true){
+                    switch (i){
+                        case '1':
+                            objetives.push(roomOverlap);
+                            break;
+                        case '2':
+                            objetives.push(continuidadeSala);
+                            break; 
+                        case '3':
+                            objetives.push(sameRoomFitness);
+                            break;  
+                        case '4':
+                            objetives.push(lotation);
+                            break;
+                    }
+                    
+            }
+        }
+        fitness.push([objetives])
     }
     return fitness;
 }
