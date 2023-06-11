@@ -6,78 +6,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
 });
 
-//////////////setHorario////////////
-function setHorarioMain() {
-    const select = document.querySelector("#select_curso");
-    if (select) {
-        select.addEventListener('change', () => {
-            if (select.id === 'select_curso') {
-                appendUnidadeOnSelect(timeTables, select.value);
-                var filterData = setFilterCurso(timeTables, 'Curso', select.value);
-
-            }
-            let selectDay = document.querySelector("#filter_ByDay");
-            if (selectDay.value !== "") {
-                day = getDateCalender(selectDay.value);
-                getCalander(filterData[0], filterData[1], day);
-            } else {
-                getCalander(filterData[0], filterData[1], "");
-            }
-
-        });
-
-    }
-}
-function setHorarioUnidadeExecucao() {
-    const select = document.querySelector("#select_Unidade");
-    if (select) {
-        select.addEventListener('change', () => {
-
-            var selected = [];
-            for (var option of select.options) {
-                if (option.selected) {
-                    selected.push(option.value);
-                }
-            }
-            appendTurnoOnSelect(timeTables, selected)
-            let filterData = setFilterCurso(timeTables, 'Unidade de execução', selected);
-            let selectDay = document.querySelector("#filter_ByDay");
-            if (selectDay.value !== "") {
-                day = getDateCalender(selectDay.value);
-                getCalander(filterData[0], filterData[1], day);
-            } else {
-                getCalander(filterData[0], filterData[1], "");
-            }
-
-        });
-
-    }
-}
-function setHorarioTurno() {
-    const select = document.querySelector("#select_Turno");
-    if (select) {
-        select.addEventListener('change', () => {
-
-            var selected = [];
-            for (var option of select.options) {
-                if (option.selected) {
-                    selected.push(option.value);
-                }
-            }
-            let filterData = setFilterCurso(timeTables, 'Turno', selected);
-            let selectDay = document.querySelector("#filter_ByDay");
-            if (selectDay.value !== "") {
-                day = getDateCalender(selectDay.value);
-                getCalander(filterData[0], filterData[1], day);
-            } else {
-                getCalander(filterData[0], filterData[1], "");
-            }
-
-        });
-
-    }
-}
-// função para filtrar e ciar e retornar um abjeto JSON para ser populado os dados no calendario, este objeto temo formato da biblioteca
+/*
+ função para filtrar,ciar e retornar um abjeto JSON para ser populado os dados no calendario, 
+ este objeto tem formato da biblioteca, esta função não chama nenhuma outra função issencial para popular dados
+*/
 function setFilterCurso(dataHorarios, typeFilter, filter) {
     var obj = new Object();
     var arrayObj = []
@@ -96,11 +28,9 @@ function setFilterCurso(dataHorarios, typeFilter, filter) {
                     //avaliaçao ternário//
                     startTimeTable < value['Início'] ? startTimeTable : startTimeTable = value['Início'];
                     obj.end = getDateTime(value['Dia'], value['Fim'], 1);
-                    debugger
                     arrayObj.push(obj);
                 }
             }
-
         } else {
 
             if (value[typeFilter].includes(filter)) {
@@ -115,12 +45,62 @@ function setFilterCurso(dataHorarios, typeFilter, filter) {
                 arrayObj.push(obj);
             }
         }
-
     }
-    console.log(JSON.stringify(arrayObj))
-
     return [arrayObj, startTimeTable];
 }
+
+
+// função para horario o turno, chama função setFilterCurso() para voltar a filtrar os dados e refaz o getCalander()
+function setHorarioMain() {
+    const select = document.querySelector("#select_curso");
+    if (select) {
+        select.addEventListener('change', () => {
+            if (select.id === 'select_curso') {
+                appendUnidadeOnSelect(timeTables, select.value);
+                var filterData = setFilterCurso(timeTables, 'Curso', select.value);
+                getCalander(filterData[0], filterData[1], "");
+            }
+        });
+
+    }
+}
+// função para preencher o turno, chama função setFilterCurso() para voltar a filtrar os dados e refaz o getCalander()
+function setHorarioUnidadeExecucao() {
+    const select = document.querySelector("#select_Unidade");
+    if (select) {
+        select.addEventListener('change', () => {
+            var selected = [];
+            for (var option of select.options) {
+                if (option.selected) {
+                    selected.push(option.value);
+                }
+            }
+            appendTurnoOnSelect(timeTables, selected)
+            let filterData = setFilterCurso(timeTables, 'Unidade de execução', selected);
+            getCalander(filterData[0], filterData[1], "");
+        });
+    }
+}
+
+// função para preencher o turno, chama função setFilterCurso() para voltar a filtrar os dados e refaz o getCalander()
+function setHorarioTurno() {
+    const select = document.querySelector("#select_Turno");
+    if (select) {
+        select.addEventListener('change', () => {
+            debugger
+            var selected = [];
+            for (var option of select.options) {
+                if (option.selected) {
+                    selected.push(option.value);
+                }
+            }
+            let filterData = setFilterCurso(timeTables, 'Turno', selected);
+            getCalander(filterData[0], filterData[1], "");
+        });
+
+    }
+}
+
 
 ///ordena por data os horarios ///
 function setSortSchedules(dataHorarios, filterByDay) {
@@ -258,7 +238,7 @@ function setGenerateExcel() {
     const select = document.querySelector("#btn_gerarCSV");
     if (select) {
         select.addEventListener('click', () => {
-            let csv = json2csv.parse(timeTables);
+            let csv = json2csv.parse(solutionDownload);
             downloadCsv(csv, "horario_" + getTodayDate() + ".csv");
 
         });
@@ -268,6 +248,8 @@ function setGenerateExcel() {
 // função para preencher select curso
 function appendCursoOnSelect(dataHorarios, dataSalas) {
     let select = document.querySelector("#select_curso");
+    select.innerHTML = "";
+    select.innerHTML = '<option>Selecione curso</option>'
     var turma = [];
     if (dataHorarios === "") {
         return false;

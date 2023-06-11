@@ -6,6 +6,20 @@ function getDateTime(date, time, timestamp) {
     }
 
 }
+
+function convertHour(hour) {
+    var horario = hour.split(":");
+    var data = new Date(); 
+    data.setHours(parseInt(horario[0]));
+    data.setMinutes(parseInt(horario[1]));
+    data.setSeconds(parseInt(horario[2]));
+    return data.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+  }
+  
+function getHourNow(){
+    var data = new Date(); 
+    return data
+}
 function getDates(date) {
     year = new Date(date).getFullYear();
     month = new Date(date).getMonth() + 1;
@@ -28,7 +42,7 @@ function getTodayDate() {
     let dd = String(today.getDate()).padStart(2, '0');
     let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
     let yyyy = today.getFullYear();
-    todayw = yyyy + '-' + mm + '-' + dd;
+    today = yyyy + '-' + mm + '-' + dd;
     return today;
 }
 
@@ -60,7 +74,6 @@ function createExcel(json, fileName) {
 
 function downloadCsv(csvData, filename) {
     const element = document.createElement("a");
-
     element.setAttribute("href", `data:text/csv;charset=utf-8,${csvData}`);
     element.setAttribute("download", filename);
     element.style.display = "none";

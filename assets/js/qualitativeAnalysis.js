@@ -39,24 +39,40 @@ function setOvercrowedRooms() {
 
 }
 
+function randomColor() {
+    const r = Math.floor(Math.random() * 200); // Valor máximo reduzido para suavizar as cores
+    const g = Math.floor(Math.random() * 200);
+    const b = Math.floor(Math.random() * 200);
+    const alpha = 0.2; // Valor de transparência definido como 0.2
+  
+    const rgba = `rgba(${r}, ${g}, ${b}, ${alpha})`;
+    const rgb = `rgb(${r}, ${g}, ${b})`;
+  
+    return {
+      rgba: rgba,
+      rgb: rgb
+    };
+  }
+  
 
-function dataChart() {
+function dataChart(fitness) {
     var chartArray = [];
-    const rgba = ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(55, 230, 142, 0.2)', 'rgba(230, 198, 55, 0.2)'];
-    const backGround = ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(55, 230, 142)','rgb(230, 198, 55)']
-    if (analysis.length > 0) {
+
+    if (fitness.length > 0) {
         idx = 0;
         
-        for (let x of analysis) {
+        for (let x of fitness) {
                 var obj = new Object();
-                let label = "Horário"+(idx+1).toString();
+                rgba = randomColor()['rgba'];
+                rgb = randomColor()['rgb'];
+                let label = "Solução "+(idx+1).toString();
                 obj.label = label,
                 obj.data = x,
                 obj.fill = true,
-                obj.backgroundColor = rgba[idx],
-                obj.borderColor = backGround[idx],
-                obj.pointBackgroundColor = backGround[idx],
-                obj.pointHoverBorderColor = backGround[idx],
+                obj.backgroundColor = rgba,
+                obj.borderColor = rgb,
+                obj.pointBackgroundColor = rgba,
+                obj.pointHoverBorderColor = rgba,
                 obj.pointBorderColor = '#fff',
                 obj.pointHoverBackgroundColor = '#fff'
             idx++;
@@ -67,16 +83,11 @@ function dataChart() {
     }
 }
 function getChart() {
-    if (analysis.length > 0) {
+    if (fitnessSolutions.length > 0) {
 
         const data = {
-            labels: [
-                'OvercrowedRooms',
-                'StudentsWithoutSeat',
-                'UnusedSeats',
-                'UnusedRoomCharacteristics',
-            ],
-            datasets: dataChart()
+            labels: fitnessKeys,
+            datasets: dataChart(fitnessSolutions)
         };
         let chartStatus = Chart.getChart("myChart"); // <canvas> id
         if (chartStatus != undefined) {

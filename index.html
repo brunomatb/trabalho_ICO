@@ -26,7 +26,8 @@
     <script src="assets/js/json2csv.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="assets/js/qualitativeAnalysis.js"></script>
-    
+    <script src="assets/js/NSGA2/ngsa2.js"></script>
+    <script src="assets/js/mainNSGA2.js"></script>
 </head>
 
 <body>
@@ -120,35 +121,102 @@
                 <div class="div-menu-config-algoritmo border rounded mt-3">
                     <div class="row p-3">
                         <div class="col-md-12  ">
-                            <p><b>Configurações do algoritmo para gerar horário:</b></p>
+                            <p><b>Configurações do algoritmo (NSGA2) para gerar horário:</b></p>
                         </div>
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDisabled" >
-                            <label class="form-check-label" for="flexSwitchCheckDisabled">Minimizar a colização de salas</label>
-                            <p><small class="text-danger">*Ao selecionar está opção a geração do horário pode demorar mais de uma hora</small></p>
+                            <input class="form-check-input" type="checkbox" id="inject_population_csv">
+                            <label class="form-check-label" for="inject_population_csv">Gerar horário tendo como base o CSV importado dos horários</label>
                         </div>
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckCheckedDisabled" >
-                            <label class="form-check-label" for="flexSwitchCheckCheckedDisabled">Minimizar e ter em consideração a atribuição da mesma sala, quando a unidade de execução tem dois períodos</label>
-                            <p><small class="text-danger">*Ao selecionar está opção a geração do horário pode demorar mais de uma hora</small></p>
+                            <input class="form-check-input" type="checkbox" id="minimizar_colisao_sala" checked>
+                            <label class="form-check-label" for="minimizar_colisao_sala">Minimizar a colização de salas</label>
                         </div>
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-                            <label class="form-check-label" for="flexSwitchCheckDefault">Gerar horário tendo como base o CSV importado dos horários</label>
+                            <input class="form-check-input" type="checkbox" id="continuidade_sala" checked>
+                            <label class="form-check-label" for="continuidade_sala">Minimizar e ter em consideração a atribuição da mesma sala, quando a unidade de execução tem dois períodos</label>
+                        </div>
+
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="caracteristicas_sala_pedida" checked>
+                            <label class="form-check-label" for="caracteristicas_sala_pedida">Minimizar e ter em consideração as caracteristicas da sala pedida</label> 
                         </div>
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
-                            <label class="form-check-label" for="flexSwitchCheckChecked">Minimizar e ter em consideração as caracteristicas da sala pedida</label> 
+                            <input class="form-check-input" type="checkbox" id="minimizar_lotacao_sala"checked>
+                            <label class="form-check-label" for="minimizar_lotacao_sala">Minimizar e ter em consideração que, a capacidade normal da sala não deve ser inferior aos inscritos no turno</label>
                         </div>
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault"checked>
-                            <label class="form-check-label" for="flexSwitchCheckDefault">Minimizar e ter em consideração que, a capacidade normal da sala não deve ser inferior aos inscritos no turno</label>
-                        </div>
-                        
-                        
+                        <div class="accordion" id="accordion_conf_avancadas">
+                            <div class="accordion-item">
+                              <h2 class="accordion-header" id="headingOne">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTree" aria-expanded="true" aria-controls="collapseOne">
+                                  Configurações Avançadas do algoritmo
+                                </button>
+                              </h2>
+                              <div id="collapseTree" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordion_conf_avancadas">
+                                <div class="accordion-body">
+                                    <div class="alert alert-danger" role="alert">
+                                        Ao realizar alterações nas configurações avançadas do algoritmo, pode ter um impacto significativo no desempenho e nos resultados obtido. Cada parâmetro tem um papel específico no funcionamento do algoritmo e na otimização dos resultados.
+                                      </div>
+                                    <div class="row mb-3">
+                                        <label for="population_size" class="col-sm-2 col-form-label">Population size</label>
+                                        <div class="col-sm-2">
+                                          <input type="number" class="form-control" id="population_size" value="100" required>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label for="number_of_iterations" class="col-sm-2 col-form-label">Number of iterations</label>
+                                        <div class="col-sm-2">
+                                          <input type="number" class="form-control" id="number_of_iterations" value="25">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3 border rounded mt-3 p-2">
+                                        <p><b>Crossover: </b></p>
+                                        <label for="rate_crossover" class="col-sm-2 col-form-label">Rate crossover</label>
+                                        <div class="col-sm-2">
+                                          <input type="number" class="form-control" id="rate_crossover" value="20">
+                                          
+                                        </div>
+                                        <div class="alert alert-secondary p-0 mt-2" role="alert">
+                                            <small>*Parâmetro utilizado para determinar a probabilidade de ocorrer um crossover entre dois indivíduos durante a etapa de recombinação.</small>
+                                        </div>
+
+                                    </div>
+                                    <div class="row mb-3 border rounded mt-3 p-2">
+                                        <p><b>Mutation: </b></p>
+                                        <label for="rate_mutation" class="col-sm-2 col-form-label">Rate mutation</label>
+                                        <div class="col-sm-2">
+                                          <input type="number" class="form-control" id="rate_mutation" value="20">
+                                        </div>
+                                        <div class="alert alert-secondary p-0 mt-2" role="alert">
+                                            <small>*Parâmetro utilizado para determinar a probabilidade de ocorrer uma mutação em um gene durante a etapa de mutação.</small>
+                                        </div>
+
+                                    </div>
+                                    <div class="row mb-3 border rounded mt-3 p-2">
+                                        <p><b>Lcal search:</b></p>
+                                        <label for="rate_local_search" class="col-sm-2 col-form-label">Rate local search</label>
+                                        <div class="col-sm-2">
+                                          <input type="number" class="form-control" id="rate_local_search" value="10">
+                                        </div>
+                                        <div class="alert alert-secondary p-0 mt-2" role="alert">
+                                            <small>*Parâmetro que determina a quantidade de indivíduos na população que serão submetidos à busca local.</small>
+                                        </div>
+                                        <div class="row mb-3 mt-2">
+                                            <label for="step_size" class="col-sm-2 col-form-label">Step size</label>
+                                            <div class="col-sm-2">
+                                              <input type="number" class="form-control" id="step_size" value="0.1">
+                                            </div>
+                                            <div class="alert alert-secondary p-0 mt-2" role="alert">
+                                                <small>*Valor que determina o intervalo de perturbação aplicado durante a busca local.</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                 
+                                </div>
+                              </div>
+                            </div>
+                        </div>                  
                         <div><br><button type="button" class="btn btn-primary  btn-sm" id="btn_gerarHorario" data-bs-toggle="modal" data-bs-target="#modalAskGenerateTimeTables">Gerar horário</button></div>
-                     
-                        
+
                         <!--<div class="col-md-4" style="z-index: 99">
                             <select id="singleFilter" placeholder="Capacidade máxima da sala">
                                 <option value="100">Capacidade máxima da sala</option>
@@ -163,14 +231,27 @@
                             <input type="date" id="filter_ByDay" class="form-control" name="birthday">
                         </div> --> 
                     </div>    
-
                 </div>
                 <div class="div-menu-config">
-                    <div class="row">
-                        <div class="col-md-8 mt-3 " style="display: flex; align-items: baseline;">
-                            <span id="btn_gerarCSV"><i class="fa-solid fa-file-csv fa-xl" style="color: green;"></i>&nbsp;&nbsp;</span>                   
-                            <span id="btn_gerGrafico" data-bs-toggle="modal" data-bs-target="#modalChart" onclick="getChart()"><i style="color: rgb(170, 6, 6);" class="fa-solid fa-chart-column fa-xl"></i></span>
+                    
+                    <div class="col-sm-5 col-md-5 col-lg-5 mt-3 border rounded p-2">
+                        <div class="row">
+                            <div class="col-md-11 mt-0 " > 
+                                <p>Após gerar horarios pode selecionar a solução para visualização do horario.</p>
+                            </div>
+                           
+                            <div class="col-md-1 mt-0 " >
+                                <!--<button type="button" class="btn btn-primary me-2 btn-sm" id="btn_gerarHorario" data-bs-toggle="modal" data-bs-target="#modalAskGenerateTimeTables">Gerar horário</button>-->                 
+                                <span id="btn_gerGrafico" data-bs-toggle="modal" data-bs-target="#modalChart" onclick="getChart()"><i style="color: rgb(170, 6, 6);" class="fa-solid fa-chart-column fa-xl"></i></span>
+                            </div>
+                          
                         </div>
+                        
+                        <select class="form-select" id="select_Solucao" style="width: -webkit-fill-available;">
+                            <option selected>Escolher solução gerada</option>
+                        </select>
+                        <button id="btn_gerarCSV"  type="button" class="btn btn-success btn-sm mt-2">Download da solução selecionada&nbsp;&nbsp;<span><i class="fa-solid fa-file-csv fa-xl" style="color: rgb(255, 255, 255);"></i></span></button>
+                        
                     </div>
                     <div class="row">
                         <div class="col-sm-5 col-md-5 col-lg-5 mt-3">
@@ -185,7 +266,7 @@
                                 <option selected>Selecione Unid. Execução</option>
                             </select>
                         </div>
-                        <div class="col-sm-5 col-md-5 col-lg-5 mt-3">
+                        <div class="col-sm-5 col-md-5 col-lg-5 mt-3 ms-3">
                             <select class="form-select" id="select_Turno" size="3" multiple  style="width: -webkit-fill-available;">
                                 <option selected>Selecione Turno</option>
                             </select>
@@ -258,18 +339,17 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <p>Pode demorar entre até 5 minutos a gerar o horário, gerar horário?</p>
+              <p>Pode demorar até 10 horas a gerar o horário, gerar horário?</p>
+              <small>*Os tempos podem varias consuante capacidade de processamento local.</small>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" onclick="gerarHorario()"data-bs-dismiss="modal">Yes</button>
+              <button type="button" class="btn btn-primary" onclick="gerarHorarioAlgoritmo()"data-bs-dismiss="modal">Yes</button>
             </div>
           </div>
         </div>
       </div>
       <script src="assets/js/qualitativeAnalysis.js"></script>
-
-
 </body>
 
 </html>

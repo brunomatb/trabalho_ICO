@@ -1,7 +1,12 @@
+//variaveis globais //
 var timeTables = "";
 var timeTablesSalas = "";
 var timeTablesTemp = "";
 var analysis = [];
+var paretoSolutionsTimeTables = '';
+var fitnessSolutions = ''
+var solutionDownload = '';
+var fitnessKeys = [];
 //funçaõ para validar se a extenção do ficheiro é .csv, caso .csv valido lê ficheiro e chama a função setFilterCurso, getListOfClass.
 function getFileAndConvertJson(input) {
     const file = input.parentNode.parentNode.childNodes[1].childNodes[1].files[0];
@@ -25,7 +30,6 @@ function getFileAndConvertJson(input) {
         complete: function (results, file) {
             json = results.data
             json.pop();
-            debugger
             if(!json[0].hasOwnProperty('Curso') && !json[0].hasOwnProperty('Edifício')){
                 const modalValidateFile = new bootstrap.Modal(modal);
                 document.querySelector('.modal-message').textContent = "Importar um ficheiro válido .csv."
@@ -68,7 +72,6 @@ function getFileAndConvertJson(input) {
                 document.querySelector('.div-menu-config').style.display = 'grid';
                 document.querySelector('.div-menu-config-algoritmo').style.display = 'grid';
                 analysis.push(setOvercrowedRooms());
-                console.log(analysis);
             }
         }
     });

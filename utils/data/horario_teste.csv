@@ -1,0 +1,50 @@
+Curso;Unidade de execução;Turno;Turma;Inscritos no turno;Turnos com capacidade superior à capacidade das características das salas;Turno com inscrições superiores à capacidade das salas;Dia da Semana;Início;Fim;Dia;Características da sala pedida para a aula;Sala da aula;Lotação;Características reais da sala
+ME;Teoria dos Jogos e dos Contratos;01789TP01;MEA1;30;VERDADEIRO;FALSO;Sex;13:00:00;14:30:00;02/12/2022;Sala Aulas Mestrado;AA2.25;34;Sala/anfiteatro aulas, Horário sala visível portal público
+ME;Teoria dos Jogos e dos Contratos;01789TP01;MEA1;30;VERDADEIRO;FALSO;Qua;13:00:00;14:30:00;23/11/2022;Sala Aulas Mestrado;AA2.25;34;Sala/anfiteatro aulas, Horário sala visível portal público
+ME;Teoria dos Jogos e dos Contratos;01789TP01;MEA1;30;VERDADEIRO;FALSO;Qua;13:00:00;14:30:00;16/11/2022;Sala Aulas Mestrado;AA2.25;34;Sala/anfiteatro aulas, Horário sala visível portal público
+ME;Teoria dos Jogos e dos Contratos;01789TP01;MEA1;30;VERDADEIRO;FALSO;Qua;13:00:00;14:30:00;09/11/2022;Sala Aulas Mestrado;AA2.25;34;Sala/anfiteatro aulas, Horário sala visível portal público
+ME;Teoria dos Jogos e dos Contratos;01789TP01;MEA1;30;VERDADEIRO;FALSO;Qua;13:00:00;14:30:00;02/11/2022;Sala Aulas Mestrado;AA2.25;34;Sala/anfiteatro aulas, Horário sala visível portal público
+ME;Teoria dos Jogos e dos Contratos;01789TP01;MEA1;30;VERDADEIRO;FALSO;Seg;13:00:00;14:30:00;28/11/2022;Sala Aulas Mestrado;AA2.25;34;Sala/anfiteatro aulas, Horário sala visível portal público
+ME;Teoria dos Jogos e dos Contratos;01789TP01;MEA1;30;VERDADEIRO;FALSO;Seg;13:00:00;14:30:00;21/11/2022;Sala Aulas Mestrado;AA2.25;34;Sala/anfiteatro aulas, Horário sala visível portal público
+ME;Teoria dos Jogos e dos Contratos;01789TP01;MEA1;30;VERDADEIRO;FALSO;Seg;13:00:00;14:30:00;14/11/2022;Sala Aulas Mestrado;AA2.25;34;Sala/anfiteatro aulas, Horário sala visível portal público
+ME;Teoria dos Jogos e dos Contratos;01789TP01;MEA1;30;VERDADEIRO;FALSO;Seg;13:00:00;14:30:00;07/11/2022;Sala Aulas Mestrado;AA2.25;34;Sala/anfiteatro aulas, Horário sala visível portal público
+ME;Teoria dos Jogos e dos Contratos;01789TP01;MEA1;30;VERDADEIRO;FALSO;Ter;13:00:00;14:30:00;29/11/2022;Sala Aulas Mestrado;AA2.25;34;Sala/anfiteatro aulas, Horário sala visível portal público
+ME;Teoria dos Jogos e dos Contratos;01789TP01;MEA1;30;VERDADEIRO;FALSO;Ter;13:00:00;14:30:00;22/11/2022;Sala Aulas Mestrado;AA2.25;34;Sala/anfiteatro aulas, Horário sala visível portal público
+ME;Teoria dos Jogos e dos Contratos;01789TP01;MEA1;30;VERDADEIRO;FALSO;Ter;13:00:00;14:30:00;15/11/2022;Sala Aulas Mestrado;AA2.25;34;Sala/anfiteatro aulas, Horário sala visível portal público
+ME;Teoria dos Jogos e dos Contratos;01789TP01;MEA1;30;VERDADEIRO;FALSO;Ter;13:00:00;14:30:00;08/11/2022;Sala Aulas Mestrado;AA2.25;34;Sala/anfiteatro aulas, Horário sala visível portal público
+ME;Teoria dos Jogos e dos Contratos;01789TP01;MEA1;30;VERDADEIRO;FALSO;Sex;10:30:00;12:00:00;04/11/2022;Sala Aulas Mestrado;AA2.26;30;Sala/anfiteatro aulas, Horário sala visível portal público
+ME;Teoria dos Jogos e dos Contratos;01789TP01;MEA1;30;VERDADEIRO;FALSO;Sex;12:00:00;13:30:00;04/11/2022;Sala Aulas Mestrado;AA2.26;30;Sala/anfiteatro aulas, Horário sala visível portal público
+ME;Teoria dos Jogos e dos Contratos;01789TP01;MEA1;30;VERDADEIRO;FALSO;Sex;14:30:00;16:00:00;02/12/2022;Sala Aulas Mestrado;AA2.25;34;Sala/anfiteatro aulas, Horário sala visível portal público
+ME;Teoria dos Jogos e dos Contratos;01789TP01;MEA1;30;VERDADEIRO;FALSO;Seg;14:30:00;16:00:00;28/11/2022;Sala Aulas Mestrado;AA2.25;34;Sala/anfiteatro aulas, Horário sala visível portal público
+ME;Teoria dos Jogos e dos Contratos;01789TP01;MEA1;30;VERDADEIRO;FALSO;Seg;14:30:00;16:00:00;21/11/2022;Sala Aulas Mestrado;AA2.25;34;Sala/anfiteatro aulas, Horário sala visível portal público
+ME;Teoria dos Jogos e dos Contratos;01789TP01;MEA1;30;VERDADEIRO;FALSO;Seg;14:30:00;16:00:00;14/11/2022;Sala Aulas Mestrado;AA2.25;34;Sala/anfiteatro aulas, Horário sala visível portal público
+ME;Teoria dos Jogos e dos Contratos;01789TP01;MEA1;30;VERDADEIRO;FALSO;Seg;14:30:00;16:00:00;07/11/2022;Sala Aulas Mestrado;AA2.25;34;Sala/anfiteatro aulas, Horário sala visível portal público
+PIUDHIST;Seminário de Projecto I (Piudhist);SP-I_(Piudhist)S01;DHMCMG1;0;VERDADEIRO;FALSO;Seg;18:00:00;20:00:00;12/12/2022;Sala Aulas Mestrado;AA3.24;30;Sala/anfiteatro aulas, Horário sala visível portal público
+PIUDHIST;Seminário de Projecto I (Piudhist);SP-I_(Piudhist)S01;DHMCMG1;0;VERDADEIRO;FALSO;Seg;18:00:00;20:00:00;05/12/2022;Sala Aulas Mestrado;AA3.24;30;Sala/anfiteatro aulas, Horário sala visível portal público
+PIUDHIST;Seminário de Projecto I (Piudhist);SP-I_(Piudhist)S01;DHMCMG1;0;VERDADEIRO;FALSO;Seg;18:00:00;20:00:00;28/11/2022;Não necessita de sala;AA3.24;30;Sala/anfiteatro aulas, Horário sala visível portal público
+PIUDHIST;Seminário de Projecto I (Piudhist);SP-I_(Piudhist)S01;DHMCMG1;0;VERDADEIRO;FALSO;Seg;18:00:00;20:00:00;21/11/2022;Não necessita de sala;AA3.24;30;Sala/anfiteatro aulas, Horário sala visível portal público
+PIUDHIST;Seminário de Projecto I (Piudhist);SP-I_(Piudhist)S01;DHMCMG1;0;VERDADEIRO;FALSO;Seg;18:00:00;20:00:00;14/11/2022;Sala Aulas Mestrado;AA3.24;30;Sala/anfiteatro aulas, Horário sala visível portal público
+PIUDHIST;Seminário de Projecto I (Piudhist);SP-I_(Piudhist)S01;DHMCMG1;0;VERDADEIRO;FALSO;Seg;18:00:00;20:00:00;07/11/2022;Sala Aulas Mestrado;AA2.23;50;Sala/anfiteatro aulas, Horário sala visível portal público
+PIUDHIST;Seminário de Projecto I (Piudhist);SP-I_(Piudhist)S01;DHMCMG1;0;VERDADEIRO;FALSO;Seg;18:00:00;20:00:00;31/10/2022;Sala Aulas Mestrado;AA2.23;50;Sala/anfiteatro aulas, Horário sala visível portal público
+PIUDHIST;Seminário de Projecto I (Piudhist);SP-I_(Piudhist)S01;DHMCMG1;0;VERDADEIRO;FALSO;Seg;18:00:00;20:00:00;24/10/2022;Sala Aulas Mestrado;AA2.23;50;Sala/anfiteatro aulas, Horário sala visível portal público
+PIUDHIST;Seminário de Projecto I (Piudhist);SP-I_(Piudhist)S01;DHMCMG1;0;VERDADEIRO;FALSO;Seg;18:00:00;20:00:00;17/10/2022;Sala Aulas Mestrado;AA3.24;30;Sala/anfiteatro aulas, Horário sala visível portal público
+PIUDHIST;Seminário de Projecto I (Piudhist);SP-I_(Piudhist)S01;DHMCMG1;0;VERDADEIRO;FALSO;Seg;18:00:00;20:00:00;10/10/2022;Sala Aulas Mestrado;AA3.24;30;Sala/anfiteatro aulas, Horário sala visível portal público
+PIUDHIST;Seminário de Projecto I (Piudhist);SP-I_(Piudhist)S01;DHMCMG1;0;VERDADEIRO;FALSO;Seg;18:00:00;20:00:00;03/10/2022;Sala Aulas Mestrado;AA2.28;30;Sala/anfiteatro aulas, Horário sala visível portal público
+PIUDHIST;Seminário de Projecto I (Piudhist);SP-I_(Piudhist)S01;DHMCMG1;0;VERDADEIRO;FALSO;Seg;18:00:00;20:00:00;26/09/2022;Sala Aulas Mestrado;AA2.26;30;Sala/anfiteatro aulas, Horário sala visível portal público
+LP;Competências Académicas I;L5205PL05;PA3;23;FALSO;FALSO;Qua;11:00:00;12:30:00;14/12/2022;Sala/anfiteatro aulas;2E07;50;Sala/anfiteatro aulas, Horário sala visível portal público
+LP;Competências Académicas I;L5205PL05;PA3;23;FALSO;FALSO;Qua;11:00:00;12:30:00;07/12/2022;Sala de Aulas normal;2E07;50;Sala/anfiteatro aulas, Horário sala visível portal público
+LP;Competências Académicas I;L5205PL05;PA3;23;FALSO;FALSO;Qua;11:00:00;12:30:00;30/11/2022;Sala de Aulas normal;2E07;50;Sala/anfiteatro aulas, Horário sala visível portal público
+LP;Competências Académicas I;L5205PL05;PA3;23;FALSO;FALSO;Qua;11:00:00;12:30:00;23/11/2022;Sala de Aulas normal;2E07;50;Sala/anfiteatro aulas, Horário sala visível portal público
+LP;Competências Académicas I;L5205PL05;PA3;23;FALSO;FALSO;Qua;11:00:00;12:30:00;16/11/2022;Sala de Aulas normal;2E07;50;Sala/anfiteatro aulas, Horário sala visível portal público
+LP;Competências Académicas I;L5205PL05;PA3;23;FALSO;FALSO;Qua;11:00:00;12:30:00;09/11/2022;Sala de Aulas normal;2E07;50;Sala/anfiteatro aulas, Horário sala visível portal público
+LP;Competências Académicas I;L5205PL05;PA3;23;FALSO;FALSO;Qua;11:00:00;12:30:00;02/11/2022;Sala de Aulas normal;2E07;50;Sala/anfiteatro aulas, Horário sala visível portal público
+LP;Competências Académicas I;L5205PL05;PA3;23;FALSO;FALSO;Qua;11:00:00;12:30:00;26/10/2022;Sala de Aulas normal;2E07;50;Sala/anfiteatro aulas, Horário sala visível portal público
+LP;Competências Académicas I;L5205PL05;PA3;23;FALSO;FALSO;Qua;11:00:00;12:30:00;19/10/2022;Sala de Aulas normal;2E07;50;Sala/anfiteatro aulas, Horário sala visível portal público
+LP;Competências Académicas I;L5205PL05;PA3;23;FALSO;FALSO;Qua;11:00:00;12:30:00;12/10/2022;Sala de Aulas normal;2E07;50;Sala/anfiteatro aulas, Horário sala visível portal público
+LP;Competências Académicas I;L5205PL05;PA3;23;FALSO;FALSO;Qua;11:00:00;12:30:00;28/09/2022;Sala de Aulas normal;2E07;50;Sala/anfiteatro aulas, Horário sala visível portal público
+LP;Competências Académicas I;L5205PL05;PA3;23;FALSO;FALSO;Qua;11:00:00;12:30:00;21/09/2022;Sala de Aulas normal;2E07;50;Sala/anfiteatro aulas, Horário sala visível portal público
+CT;Gestão de Conflitos;00668TP02;CI-CT-02;24;VERDADEIRO;FALSO;Qui;13:00:00;15:00:00;10/11/2022;Sala de Aulas normal;AA3.30;24;Sala/anfiteatro aulas, Horário sala visível portal público
+CT;Gestão de Conflitos;00668TP02;CI-CT-02;24;VERDADEIRO;FALSO;Qui;13:00:00;15:00:00;03/11/2022;Sala de Aulas normal;AA3.30;24;Sala/anfiteatro aulas, Horário sala visível portal público
+CT;Gestão de Conflitos;00668TP02;CI-CT-02;24;VERDADEIRO;FALSO;Qui;13:00:00;15:00:00;27/10/2022;Sala de Aulas normal;AA3.30;24;Sala/anfiteatro aulas, Horário sala visível portal público
+CT;Gestão de Conflitos;00668TP02;CI-CT-02;24;VERDADEIRO;FALSO;Qui;13:00:00;15:00:00;20/10/2022;Sala de Aulas normal;AA3.30;24;Sala/anfiteatro aulas, Horário sala visível portal público
+CT;Gestão de Conflitos;00668TP02;CI-CT-02;24;VERDADEIRO;FALSO;Qui;13:00:00;15:00:00;13/10/2022;Sala de Aulas normal;AA3.30;24;Sala/anfiteatro aulas, Horário sala visível portal público
