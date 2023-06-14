@@ -99,7 +99,7 @@ function injectData(horariosJson, salasJson) {
         }
        
     }
-    return [pop,pop2];
+    return [[pop],[pop2]];
 }
 
 
