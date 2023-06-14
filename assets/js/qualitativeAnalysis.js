@@ -83,10 +83,9 @@ function dataChart(fitness) {
     }
 }
 function getChart() {
-
-    if (fitnessSolutions.length > 2) {
+    if (fitnessSolutions[0].length > 2) {
         plotRadar()
-    }else{
+    } else {
         plotScatter();
     }
 }
@@ -116,15 +115,25 @@ function plotRadar() {
 }
 
 function plotScatter() {
-
+    let lab = [];
+    for (let x in fitnessSolutions) {
+        lab.push("solução " + x.toString());
+    }
     const data = {
-        labels: fitnessKeys,
-        datasets: dataChart(fitnessSolutions)
+        labels: lab,
+            datasets: [{
+            data: fitnessSolutions,
+            backgroundColor: 'rgba(255, 99, 132, 1)', // Cor de preenchimento dos pontos
+            borderColor: 'rgba(255, 99, 132, 1)', // Cor da borda dos pontos
+            pointRadius: 5 // Tamanho dos pontos
+        }]
     };
-    let chartStatus = Chart.getChart("myChart"); // <canvas> id
+
+    let chartStatus = Chart.getChart("myChart"); // ID do elemento <canvas>
     if (chartStatus != undefined) {
         chartStatus.destroy();
     }
+
     const ctx = document.getElementById('myChart');
     new Chart(ctx, {
         type: 'scatter',

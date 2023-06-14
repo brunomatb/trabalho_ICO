@@ -83,6 +83,7 @@ function generateIndices(jsonObject) {
 //Cria um cromossoma do import das salas e horario.
 function injectData(horariosJson, salasJson) {
     let pop = [];
+    let pop2 = [];
 
     for (let i = 0; i < horariosJson.length; i++) {
         let boolSalaAtribuida = false;
@@ -92,14 +93,16 @@ function injectData(horariosJson, salasJson) {
             if (salaHorario === sala) {
                 boolSalaAtribuida = true;
                 pop.push(j);
-                break;
+            }else{
+                pop2.push(j);
             }
         }
-        if (!boolSalaAtribuida) {
-        }
+       
     }
-    return [pop];
+    return [pop,pop2];
 }
+
+
 
 function evaluation(population, horarios, salas, configAlgoritmo) {
     /*parametro configAlgoritmo constituido por um array de boleanos valores: 
@@ -195,7 +198,7 @@ function evaluation(population, horarios, salas, configAlgoritmo) {
                     
             }
         }
-        fitness.push([objetives])
+        fitness.push(objetives)
     }
     return fitness;
 }
@@ -267,7 +270,8 @@ function NSGA2(horarios, salas, configAlgoritmo, configAnvancadasAlgoritmo) {
     horarios = orderJsonBasedOnKey(horarios);
     salas = orderJsonBasedOnKey(salas);
     if (configAlgoritmo[0]) {
-        population = injectData(horarios, salas);
+        population = injectData(horarios, salas)[0];
+        lastPopulation = injectData(horarios, salas)[1];
     } else {
         const numberOfVariables = horarios.length
         population = random_population(numberOfVariables, pop_size, lowerBound, upperBound);
@@ -315,6 +319,7 @@ function NSGA2(horarios, salas, configAlgoritmo, configAnvancadasAlgoritmo) {
     }
     console.log("Valores de Fitness:");
     console.log(selected_fitness_values);
+    
     return [selected_pop, selected_fitness_values];
 }
 

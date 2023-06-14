@@ -15,6 +15,42 @@ function random_population(nv, n, lb, ub) {
   }
   return pop;
 }
+function sbxCrossover(pop, crossover_rate, distribution_index, lowerBound, upperBound) {
+  /* offspring: matriz que armazena as soluções resultantes do crossover
+     r1, r2: valores aleatórios no intervalo de 0 ao tamanho da população, pop
+  */
+  const offspring = [];
+  for (let i = 0; i < crossover_rate; i += 2) {
+    const r1 = Math.floor(Math.random() * pop.length);
+    const r2 = Math.floor(Math.random() * pop.length);
+    const offspring1 = [];
+    const offspring2 = [];
+    /* por cada iteração são gerados dois descendentes */
+    let p = pop[r1].length;
+    for (let j = 0; j < p; j++) {
+      const u = Math.random();
+      const beta = 1 + (2 * Math.min(pop[r1][j], pop[r2][j])) / (pop[r1][j] + pop[r2][j]);
+      const beta_minus = Math.pow(1 / beta, distribution_index + 1);
+      const beta_plus = Math.pow(beta, distribution_index + 1);
+      const rand = Math.random();
+      const beta_q = (rand <= 0.5) ? Math.pow((2 * rand) + (1 - (2 * rand)) * beta_minus, 1 / (distribution_index + 1)) :
+        Math.pow((2 * (1 - rand)) + (2 * (rand - 0.5)) * beta_plus, 1 / (distribution_index + 1));
+      let child1 = 0.5 * ((pop[r1][j] + pop[r2][j]) - beta_q * Math.abs(pop[r1][j] - pop[r2][j]));
+      let child2 = 0.5 * ((pop[r1][j] + pop[r2][j]) + beta_q * Math.abs(pop[r1][j] - pop[r2][j]));
+      
+      child1 = Math.max(lowerBound, Math.min(upperBound, Math.round(child1)));
+      child2 = Math.max(lowerBound, Math.min(upperBound, Math.round(child2)));
+      
+      offspring1.push(child1);
+      offspring2.push(child2);
+    }
+    offspring.push(offspring1);
+    offspring.push(offspring2);
+  }
+  return offspring;
+}
+
+
 
 function uniformCrossover(pop, crossover_rate) {
   /* offspring: matriz que armazena as soluções resultantes do crossover
@@ -82,7 +118,6 @@ function local_search(pop, rate_local_search, step_size, lb, ub) {
   }
   return offspring;
 }
-
 
 /*
     crowding_calculation calcula a distância de aglomeração para um conjunto de soluções fitness_values, 
@@ -331,27 +366,27 @@ function minimizarMesmaSala(schedule, room) {
   return 0;
 }
 
-function injectData(horariosJson, salasJson){
-    let pop = [];
-    
-    for (let i = 0 ; i< horariosJson.length; i++){
-        let boolSalaAtribuida = false;
-        const salaHorario = horariosJson[i]['Sala da aula'];
-        for (let j = 0 ; j<salasJson.length; j++){
-          const sala = salasJson[j]['Nome_sala'];
-          if(salaHorario === sala){
-            boolSalaAtribuida = true;
-            pop.push(j);
-          break;
-          }
-        }
-        if(!boolSalaAtribuida){
-          
-        }
+function injectData(horariosJson, salasJson) {
+  let pop = [];
+  let pop2 = [];
 
-    }
-    return [pop];
+  for (let i = 0; i < horariosJson.length; i++) {
+      let boolSalaAtribuida = false;
+      const salaHorario = horariosJson[i]['Sala da aula'];
+      for (let j = 0; j < salasJson.length; j++) {
+          const sala = salasJson[j]['Nome_sala'];
+          if (salaHorario === sala) {
+              boolSalaAtribuida = true;
+              pop.push(j);
+          }else{
+              pop2.push(j);
+          }
+      }
+     
+  }
+  return [pop,pop2];
 }
+
 
 
 
@@ -364,13 +399,13 @@ function NSGA2(horarios, salas) {
   //crossoverPercentage = 20
   const rate_crossover = 20;
   rate_mutation = 20;
-  rate_local_search = 10;
-  step_size = 0.1;
-  const iterations = 1;
+  rate_local_search = 20;
+  step_size = 0.5;
+  const iterations = 50;
   // Geração de índices para as variáveis de decisão
   horarios = generateIndices(horarios);
   salas = generateIndices(salas);
-  population = injectData(horarios, salas);
+  population = injectData(horarios, salas)[0];
   //population = random_population(numberOfVariables, pop_size, lowerBound, upperBound);
   //const rate_crossover = Math.floor((crossoverPercentage / 100) * (population.length / 2));
   for (let i = 0; i < iterations; i++) {
