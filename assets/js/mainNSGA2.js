@@ -325,52 +325,66 @@ function NSGA2(horarios, salas, configAlgoritmo, configAnvancadasAlgoritmo) {
 
 
 
-function gerarHorarioAlgoritmo() {
-    const inject_population_csv = document.querySelector('#inject_population_csv').checked;
-    const minimizar_mesma_sala = document.querySelector('#minimizar_colisao_sala').checked;
-    const continuidade_sala = document.querySelector('#continuidade_sala').checked;
-    const caracteristicas_sala_pedida = document.querySelector('#caracteristicas_sala_pedida').checked;
-    const minimizar_lotacao_sala = document.querySelector('#minimizar_lotacao_sala').checked;
-    const config = [minimizar_mesma_sala, continuidade_sala, caracteristicas_sala_pedida, minimizar_lotacao_sala];
-    fitnessKeys = [];
-    for(let i in config){
-        if(config[i] === true){
-            switch (i){
-                case '0':
-                    fitnessKeys.push('Minimizar colisão sala');
-                    break;
-                case '1':
-                    fitnessKeys.push('Minimizar continuidade sala');
-                    break; 
-                case '2':
-                    fitnessKeys.push('Minimizar caractetistica sala pedida');
-                    break;  
-                case '3':
-                    fitnessKeys.push('Minimizar lotação');
-                    break;
-            }
-            
-        }
-    }
-    // inputs das configurações avançadas //
-    const population_size = document.querySelector('#population_size').value;
-    const number_of_iterations = document.querySelector('#number_of_iterations').value;
-    const rate_crossover = document.querySelector('#rate_crossover').value;
-    const rate_mutation = document.querySelector('#rate_mutation').value;
-    const rate_local_search = document.querySelector('#rate_local_search').value;
-    const step_size = document.querySelector('#step_size').value;
 
+async function gerarHorario() {
 
-    const configAlgoritmo = [inject_population_csv, minimizar_mesma_sala, continuidade_sala, caracteristicas_sala_pedida, minimizar_lotacao_sala]
-    const configAnvancadasAlgoritmo = [population_size, number_of_iterations, rate_crossover, rate_mutation, rate_local_search, step_size]
-    console.log("Inicio: "+ getHourNow());
-    results =  NSGA2(timeTables, timeTablesSalas, configAlgoritmo, configAnvancadasAlgoritmo);
-    console.log('solutions pareto');
-    console.log(console.log(results[0]));
-    console.log("Fim: "+getHourNow());
-    paretoSolutionsTimeTables = convertSolutionsToTimeTables(results[0], timeTables, timeTablesSalas)
-    fitnessSolutions = results[1];
-    appendParetoSolutions(paretoSolutionsTimeTables);
-    return [horarios, fitnessSolutions];
-
+    await openModal();
+    gerarHorarioAlgoritmo();
 }
+
+function gerarHorarioAlgoritmo() {
+    debugger
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+        const inject_population_csv = document.querySelector('#inject_population_csv').checked;
+        const minimizar_mesma_sala = document.querySelector('#minimizar_colisao_sala').checked;
+        const continuidade_sala = document.querySelector('#continuidade_sala').checked;
+        const caracteristicas_sala_pedida = document.querySelector('#caracteristicas_sala_pedida').checked;
+        const minimizar_lotacao_sala = document.querySelector('#minimizar_lotacao_sala').checked;
+        const config = [minimizar_mesma_sala, continuidade_sala, caracteristicas_sala_pedida, minimizar_lotacao_sala];
+        fitnessKeys = [];
+        for (let i in config) {
+            if (config[i] === true) {
+                switch (i) {
+                    case '0':
+                        fitnessKeys.push('Minimizar colisão sala');
+                        break;
+                    case '1':
+                        fitnessKeys.push('Minimizar continuidade sala');
+                        break;
+                    case '2':
+                        fitnessKeys.push('Minimizar caractetistica sala pedida');
+                        break;
+                    case '3':
+                        fitnessKeys.push('Minimizar lotação');
+                        break;
+                }
+
+            }
+        }
+        // inputs das configurações avançadas //
+        const population_size = document.querySelector('#population_size').value;
+        const number_of_iterations = document.querySelector('#number_of_iterations').value;
+        const rate_crossover = document.querySelector('#rate_crossover').value;
+        const rate_mutation = document.querySelector('#rate_mutation').value;
+        const rate_local_search = document.querySelector('#rate_local_search').value;
+        const step_size = document.querySelector('#step_size').value;
+
+
+        const configAlgoritmo = [inject_population_csv, minimizar_mesma_sala, continuidade_sala, caracteristicas_sala_pedida, minimizar_lotacao_sala]
+        const configAnvancadasAlgoritmo = [population_size, number_of_iterations, rate_crossover, rate_mutation, rate_local_search, step_size]
+        console.log("Inicio: " + getHourNow());
+        results = NSGA2(timeTables, timeTablesSalas, configAlgoritmo, configAnvancadasAlgoritmo);
+        console.log('solutions pareto');
+        console.log(console.log(results[0]));
+        console.log("Fim: " + getHourNow());
+        paretoSolutionsTimeTables = convertSolutionsToTimeTables(results[0], timeTables, timeTablesSalas)
+        fitnessSolutions = results[1];
+        appendParetoSolutions(paretoSolutionsTimeTables);
+        alertModal();
+        return [horarios, fitnessSolutions];
+    }, 1500);
+    resolve();
+}, { once: true });
+}
+

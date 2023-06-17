@@ -217,18 +217,18 @@ async function openModal() {
     const modal = document.querySelector('#modalWaitTimeTables');
     const modalValidateFile = new bootstrap.Modal(modal);
     modalValidateFile.show();
-    document.querySelector('.header-modalWaitTimeTables').textContent = 'A gerar horário, por favor aguarde...';
+    document.querySelector('.header-modalWaitTimeTables').textContent = 'A gerar soluções, por favor aguarde...';
     document.querySelector('.generate-time-tables-spinner-footer').style.display = 'none';
     document.querySelector('.generate-time-tables-spinner').style.display = 'block';
     return true;
 }
 async function alertModal() {
-    document.querySelector('.header-modalWaitTimeTables').textContent = 'horário gerado';
+    document.querySelector('.header-modalWaitTimeTables').textContent = 'Soluções geradas';
     document.querySelector('.generate-time-tables-spinner').style.setProperty('display', 'none', 'important');
     document.querySelector('.modal-message-time-tables').innerHTML = "Horario Gerado com sucesso.</b>";
     document.querySelector('.generate-time-tables-spinner-footer').style.display = 'block';
 }
-async function gerarHorario() {
+async function gerarHorario_2() {
 
     await openModal();
     setGenerateScheduless();
